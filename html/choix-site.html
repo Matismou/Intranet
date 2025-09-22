@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Choisissez votre site</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="site-selector-page">
+  <h1>Bienvenue sur l'intranet EUROCAST</h1>
+  <p>Veuillez choisir votre site :</p>
+  <select onchange="rediriger(this.value)">
+    <option value="">-- Sélectionnez --</option>
+    <option value="ELY">Lyon</option>
+    <option value="ERE">Reyrieux</option>
+    <option value="POL">POL</option>
+    <option value="ETH">Thonon</option>
+    <option value="ECH">Châteauroux</option>
+    <option value="EBR">Brive</option>
+    <option value="EDE">Delle</option>
+  </select>
+  
+  <script>
+    function rediriger(site) {
+      if (site) {
+        window.location.href = "index-" + site + ".html";
+      }
+    }
+  </script>
+  <script>
+    // Redirige automatiquement si un site est déjà enregistré
+    const savedSite = localStorage.getItem("site");
+    if (savedSite) {
+      window.location.href = "index-" + savedSite + ".html";
+    }
+  
+    // Enregistre le site choisi
+    function rediriger(site) {
+      if (site) {
+        localStorage.setItem("site", site);
+        window.location.href = "index-" + site + ".html";
+      }
+    }
+  </script>
+  
+</body>
+</html>

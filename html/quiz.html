@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Cybersécurité</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.2/dist/tailwind.min.css" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script>
+    const savedTheme = localStorage.getItem("theme");
+    if (savedTheme === "dark") {
+      document.documentElement.classList.add("dark");
+    }
+  </script>  
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #f5f5f5;
+    }
+
+    main#app {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin: auto;
+      padding: 2rem;
+      border-radius: 1rem;
+    }
+
+    #module {
+      background-color: #e6efff;
+      border-radius: 0.75rem;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.06);
+      padding: 2rem;
+      margin-top: 1rem;
+    }
+
+    .dark #module {
+      background-color: #1e293b;
+    }
+
+    .dark body {
+      background-color: #0f172a;
+      color: #f1f5f9;
+    }
+
+    button.answer {
+      display: block;
+      width: 100%;
+      text-align: left;
+      background-color: #d0e9ff; 
+      border: none;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border-radius: 0.5rem;
+      cursor: pointer;
+    }
+
+    button.answer:hover {
+      background-color: #cbd5e1;
+    }
+
+    #progress-container {
+      position: relative;
+      width: 100%;              
+      max-width: 300px;         
+      margin: 1rem auto;        
+      height: 20px;
+      background-color: #afcbf3;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    #progress-bar {
+      background-color: #38bdf8;
+      height: 100%;
+      transition: width 0.3s ease-in-out;
+    }
+
+    #progress-text {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: bold;
+      color: rgb(0, 0, 0);
+      pointer-events: none;
+    }
+
+    .dark #progress-container {
+      background-color: #334155; 
+    }
+
+    .dark #progress-bar {
+      background-color: #38bdf8;
+    }
+
+    .dark #progress-text {
+      color: #ffffff; 
+    }
+
+    .dark button.answer {
+      background-color: #334155;
+      color: #f1f5f9;
+    }
+
+    .dark button.answer:hover {
+      background-color: #475569;
+    }
+
+    .theme-toggle-btn {
+      position: fixed;
+      bottom: 1rem;
+      right: 1rem;
+      background-color: #1f2937;
+      color: #f8fafc;
+      border: none;
+      padding: 0.5rem 0.75rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      font-size: 1.25rem;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+      z-index: 9999;
+    }
+    .dark .theme-toggle-btn {
+      background-color: #f8fafc;
+      color: #1f2937;
+    }
+
+  </style>
+</head>
+<body class="bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-gray-100">
+  <main id="app" class="max-w-2xl mx-auto p-4">
+    <h1 class="text-2xl font-bold mb-4 text-center">Quiz Cybersécurité</h1>
+    <img src="/logo.png" alt="Illustration cybersécurité" style="position: absolute; top: 1rem; right: 1rem; width: 15%;" />
+    <div id="module" class="bg-white dark:bg-gray-800 p-4 rounded shadow"></div>
+    <div id="progress-container">
+      <div id="progress-bar" style="width: 20%;"></div>
+      <div id="progress-text">2/10</div>
+    </div>          
+  </main>
+  
+  <!-- Bouton de thème -->
+  <button id="toggle-theme" class="theme-toggle-btn">🌙</button>  
+
+  <button id="retour" onclick="window.location.href='index.html'" class="absolute top-4 left-4 bg-gray-300 dark:bg-gray-600 text-gray-800 dark:text-white px-4 py-2 rounded hover:bg-gray-400 dark:hover:bg-gray-500">
+    ⬅️ Retour à l'accueil
+  </button>  
+
+  <script src="quiz-script.js"></script>
+
+  <script>
+    const toggleBtn = document.getElementById("toggle-theme");
+    toggleBtn.addEventListener("click", () => {
+      document.documentElement.classList.toggle("dark");
+      toggleBtn.textContent = document.documentElement.classList.contains("dark")      ? "☀️" : "🌙";
+    });
+  
+    // Appliquer le bon thème au chargement
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+      document.body.classList.add("dark");
+      toggleBtn.textContent = "☀️";
+    }
+    
+    document.getElementById("theme-toggle").addEventListener("click", function () {
+      document.body.classList.toggle("dark");
+      const isDark = document.body.classList.contains("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+    });
+
+  </script>  
+
+  <img id="logo-certificat" src="logo.png" style="display: none;" alt="Logo certificat">
+
+</body>
+</html>

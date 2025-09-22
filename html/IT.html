@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>INTRANET EUROCAST</title>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="lang.js"></script>
+</head>
+
+<script>
+  const apiKey = "d0d485d19c0ab1582d6e3d981c8e1849"; // remplace par ta vraie clé OpenWeatherMap
+
+  async function chargerMeteoDepuisChoix() {
+    const ville = document.getElementById("ville-select").value;
+    try {
+      const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${ville},FR&appid=${apiKey}&units=metric&lang=fr`);
+      const data = await res.json();
+      const temp = Math.round(data.main.temp);
+      const meteo = data.weather[0].description;
+      document.getElementById("meteo-texte").textContent = `${ville} – ${temp}°C, ${meteo}`;
+    } catch (err) {
+      document.getElementById("meteo-texte").textContent = "⚠️ Météo indisponible";
+    }
+  }
+
+  window.onload = function () {
+  chargerMeteoDepuisChoix();
+
+  // Barre de recherche
+  const input = document.getElementById("search-input");
+  if (input) {
+    input.addEventListener("keyup", function () {
+      const filter = input.value.toLowerCase();
+      const cards = document.querySelectorAll(".card");
+      cards.forEach(card => {
+        card.style.display = card.textContent.toLowerCase().includes(filter) ? "block" : "none";
+      });
+    });
+  }
+};
+
+</script>
+<body> 
+  <header>
+    
+    <h1 id="title">INTRANET EUROCAST</h1>
+    <div class="language-selector">
+      <img
+        src="https://flagcdn.com/36x27/fr.png"
+        srcset="https://flagcdn.com/72x54/fr.png 2x,
+          https://flagcdn.com/108x81/fr.png 3x"
+        width="36"
+        height="27"
+        alt="France" onclick="setLanguage('fr')">
+        <img
+        src="https://flagcdn.com/36x27/gb-eng.png"
+        srcset="https://flagcdn.com/72x54/gb-eng.png 2x,
+          https://flagcdn.com/108x81/gb-eng.png 3x"
+        width="36"
+        height="27" alt="English" onclick="setLanguage('en')">
+        <img
+        src="https://flagcdn.com/36x27/pt.png"
+        srcset="https://flagcdn.com/72x54/pt.png 2x,
+          https://flagcdn.com/108x81/pt.png 3x"
+        width="36"
+        height="27" alt="Português" onclick="setLanguage('pt')">
+      <img
+        src="https://flagcdn.com/36x27/mx.png"
+        srcset="https://flagcdn.com/72x54/mx.png 2x,
+          https://flagcdn.com/108x81/mx.png 3x"
+        width="36"
+        height="27"
+        alt="Mexique" onclick="setLanguage('es')">
+        <img
+        src="https://flagcdn.com/36x27/de.png"
+        srcset="https://flagcdn.com/72x54/de.png 2x,
+          https://flagcdn.com/108x81/de.png 3x"
+        width="36"
+        height="27" alt="Deutsch" onclick="setLanguage('de')">
+        <img
+        src="https://flagcdn.com/36x27/hu.png"
+        srcset="https://flagcdn.com/72x54/hu.png 2x,
+          https://flagcdn.com/108x81/hu.png 3x"
+        width="36"
+        height="27" alt="Magyar" onclick="setLanguage('hu')">
+        </div>
+
+  </header>
+  <div class="meteo-barre">
+    <label for="ville-select">🌤 Météo :</label>
+    <select id="ville-select" onchange="chargerMeteoDepuisChoix()">
+      <option value="Lyon">Lyon</option>
+      <option value="Thonon-les-Bains">Thonon</option>
+      <option value="Brive-la-Gaillarde">Brive</option>
+      <option value="Reyrieux">Reyrieux</option>
+      <option value="Delle">Delle</option>
+      <option value="Châteauroux">Châteauroux</option>
+    </select>
+    <span id="meteo-texte">Chargement...</span>
+  </div>
+  
+  <!--<div class="alert-banner" id="alert-banner">
+    ⚠️ Maintenance GLPI prévue jeudi à 18h
+  </div>-->
+  
+  <div class="search-bar">
+    <input type="text" id="search-input" placeholder="🔎 Rechercher un outil, document, etc.">
+  </div>
+  
+  <main>
+    <section class="section-group">
+      <h2 id="welcome-title">👋 Bienvenue sur l'intranet EUROCAST</h2>
+      <p class="intro-text" id="intro-text">"Tout ce qu’il vous faut, au même endroit."</p>
+      <div class="service-status">
+        <strong id="service-status-title">🔔 État des services :</strong>
+        <ul>
+          <li id="status-ok">🟢 Tous les services sont opérationnels</li>
+          <!-- <li id="status-warning">🟠 GLPI sera en maintenance jeudi à 18h</li> -->
+          <!-- <li id="status-down">🔴 Problème détecté sur OneDrive</li> -->
+        </ul>
+      </div>
+    </section>
+    
+  
+    <section class="section-group">
+      <h2>🔗 Outils</h2>
+      <div class="card-grid">
+        <a href="http://10.1.0.146:8089/open/bwt/portail.jsp#index" target="_blank" class="card">🕒 Kélio</a>
+        <a href="https://memlyoglp01.eurocast.local/glpi/front/ticket.php" target="_blank" class="card">🎫 GLPI</a>
+        <a href="https://m365.cloud.microsoft/onedrive/?acctsw=1" target="_blank" class="card">☁️ OneDrive</a>
+        <a href="https://www.linkedin.com/company/gmd-eurocast/posts/?feedView=all" target="_blank" class="card">ℹ️ Linkedin</a>
+        <a href="https://espace-client.orange-business.com/accueil" target="_blank" class="card">🟧 Orange</a>
+        <a href="https://entra.microsoft.com/#view/Microsoft_AAD_IAM/TenantOverview.ReactView?Microsoft_AAD_IAM_legacyAADRedirect=true" target="_blank" class="card">🚪 Entra-Id</a>
+        <a href="http://10.8.2.199/zabbix/index.php?request=zabbix.php%3Faction%3Ddashboard.view" target="_blank" class="card">🔍 Supervision</a>
+        <a href="https://eu.ymcs.yealink.com/manager/login" target="_blank" class="card">🛜 Yealink</a>
+        <a href="https://memdcdmp01:84/login.aspx" target="_blank" class="card">🧩 Lansweeper</a>
+      </div>
+    </section>
+  
+    <section class="section-group">
+      <h2>📄 Documents</h2>
+      <div class="card-grid">
+        <a href="https://intranet.local/procedures.pdf" target="_blank" class="card">📘 Procédures</a>
+        <a href="annuaire.html" target="_blank" class="card">📖☎️ Anuaire</a>
+      </div>
+    </section>
+  
+    <section class="section-group">
+      <h2>🌍 Développeur:</h2>
+      <div class="iframe-wrapper">
+        <iframe src="https://matiasdewinne.fr" frameborder="0" width="100%" height="300"></iframe>
+      </div>
+    </section>
+  </main>
+  
+</body>
+</html>

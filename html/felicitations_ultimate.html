@@ -1,0 +1,247 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Félicitations pour ton enfant !</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Arial', sans-serif;
+            overflow: hidden;
+            color: white;
+            text-align: center;
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 600% 600%;
+            animation: gradient 20s ease infinite;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        h1 {
+            font-size: 5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            animation: glow 2s ease-in-out infinite alternate, pulse 3s ease-in-out infinite, rainbow 8s linear infinite;
+        }
+
+        @keyframes glow {
+            from {
+                text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.5);
+            }
+            to {
+                text-shadow: 0 0 30px rgba(255, 255, 255, 0.9);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.3);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes rainbow {
+            0% {
+                color: gold;
+            }
+            20% {
+                color: lime;
+            }
+            40% {
+                color: cyan;
+            }
+            60% {
+                color: magenta;
+            }
+            80% {
+                color: yellow;
+            }
+            100% {
+                color: gold;
+            }
+        }
+
+        .message {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            font-size: 1.5em;
+            margin: 0;
+            animation: glow-text 2s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow-text {
+            from {
+                text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+            }
+            to {
+                text-shadow: 0 0 15px rgba(255, 255, 255, 0.8);
+            }
+        }
+
+        /* Animation des étoiles */
+        .star {
+            position: absolute;
+            background-color: white;
+            border-radius: 50%;
+            animation: float linear infinite;
+            opacity: 0.8;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-1000px) rotate(1080deg);
+                opacity: 0;
+            }
+        }
+
+        /* Feu d'artifice et explosions */
+        .firework {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
+            box-shadow: 0 0 5px 2px;
+        }
+
+        .explosion {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: explode 1.5s ease-out forwards;
+        }
+
+        @keyframes explode {
+            0% {
+                transform: translate(0, 0) scale(0);
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-100px, -150px) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Confettis */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            border-radius: 50%;
+            animation: confetti-fall linear infinite;
+            opacity: 0.8;
+            top: -10px;
+        }
+
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(0) rotate(0deg);
+            }
+            100% {
+                transform: translateY(110vh) rotate(720deg);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Félicitations pour ton enfant !</h1>
+    </div>
+    <p class="message">De la part de toute ton équipe adorée</p>
+
+    <script>
+        // Création des étoiles
+        for (let i = 0; i < 150; i++) {
+            let star = document.createElement('div');
+            star.classList.add('star');
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.width = Math.random() * 4 + 'px';
+            star.style.height = star.style.width;
+            star.style.animationDuration = Math.random() * 4 + 3 + 's';
+            star.style.animationDelay = Math.random() * 5 + 's';
+            document.body.appendChild(star);
+        }
+
+        // Création des feux d'artifice
+        setInterval(() => {
+            let firework = document.createElement('div');
+            firework.classList.add('firework');
+    // Modifie la position pour qu'ils apparaissent partout sur l'écran
+            firework.style.left = Math.random() * 100 + 'vw';
+            firework.style.bottom = Math.random() * 50 + 'vh'; // Position aléatoire en hauteur
+            firework.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            document.body.appendChild(firework);
+
+    // Animation de l'explosion
+                setTimeout(() => {
+                    for (let j = 0; j < 70; j++) {
+                        let explosion = document.createElement('div');
+                        explosion.classList.add('explosion');
+                        explosion.style.left = parseFloat(firework.style.left) + Math.random() * 40 - 20 + 'px';
+                        explosion.style.top = firework.getBoundingClientRect().top + 'px';
+                        explosion.style.backgroundColor = `hsl(${Math.random() * 60 + parseFloat(firework.style.backgroundColor.match(/\d+/)[0])}, 100%, 60%)`;
+                        explosion.style.animationDelay = j * 0.02 + 's';
+                        document.body.appendChild(explosion);
+
+            // Suppression après l'animation
+                        setTimeout(() => {
+                            explosion.remove();
+                        }, 1500);
+                    }
+                    firework.remove();
+                }, 1000);
+            }, 300);
+
+
+        // Création des confettis
+        setInterval(() => {
+            let confetti = document.createElement('div');
+            confetti.classList.add('confetti');
+            confetti.style.left = Math.random() * 100 + 'vw';
+            confetti.style.backgroundColor = `hsl(${Math.random() * 360}, 100%, 50%)`;
+            confetti.style.animationDuration = Math.random() * 3 + 5 + 's';
+            document.body.appendChild(confetti);
+
+            // Suppression après l'animation
+            setTimeout(() => {
+                confetti.remove();
+            }, 8000);
+        }, 100);
+    </script>
+</body>
+</html>

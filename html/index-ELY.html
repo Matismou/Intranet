@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🌐 INTRANET EUROCAST - {{ site }}</title>
+  <p id="user-welcome">Chargement...</p>
+  <link rel="stylesheet" href="style.css" />
+  <script defer src="lang.js"></script>
+  <script defer src="script.js"></script>
+</head>
+<script>
+  const apiKey = "d0d485d19c0ab1582d6e3d981c8e1849";
+  async function chargerMeteoAuto(ville) {
+    try {
+      const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${ville},FR&appid=${apiKey}&units=metric&lang=fr`);
+      const data = await res.json();
+      const temp = Math.round(data.main.temp);
+      const meteo = data.weather[0].description;
+      document.getElementById("meteo-texte").textContent = `${ville} – ${temp}°C, ${meteo}`;
+    } catch (err) {
+      document.getElementById("meteo-texte").textContent = "⚠️ Météo indisponible";
+    }
+  }
+
+ window.onload = function () {
+  // 🔁 Météo automatique
+  chargerMeteoAuto("Lyon");
+
+  // 🔍 Recherche avancée (menu déroulant)
+  const input = document.getElementById("search-input");
+  const results = document.getElementById("search-results");
+  const cards = document.querySelectorAll(".card");
+
+  input.addEventListener("keyup", function () {
+    const filter = input.value.toLowerCase();
+    results.innerHTML = "";
+
+    if (filter.length === 0) return;
+    cards.forEach(card => {
+      const text = card.textContent.toLowerCase();
+      if (text.includes(filter)) {
+        const link = document.createElement("a");
+        link.href = card.href;
+        link.className = "search-suggestion";
+        link.textContent = card.textContent;
+        link.target = "_blank";
+        results.appendChild(link);
+      }
+    });
+  });
+};
+
+
+</script>
+<body>
+  <header>
+    <h1 id="title">🌐INTRANET EUROCAST</h1>
+    <div class="language-selector">
+      <img src="https://flagcdn.com/36x27/fr.png" srcset="https://flagcdn.com/72x54/fr.png 2x, https://flagcdn.com/108x81/fr.png 3x" width="36" height="27" alt="France" onclick="setLanguage('fr')">
+      <img src="https://flagcdn.com/36x27/gb-eng.png" srcset="https://flagcdn.com/72x54/gb-eng.png 2x, https://flagcdn.com/108x81/gb-eng.png 3x" width="36" height="27" alt="English" onclick="setLanguage('en')">
+      <img src="https://flagcdn.com/36x27/pt.png" srcset="https://flagcdn.com/72x54/pt.png 2x, https://flagcdn.com/108x81/pt.png 3x" width="36" height="27" alt="Português" onclick="setLanguage('pt')">
+      <img src="https://flagcdn.com/36x27/mx.png" srcset="https://flagcdn.com/72x54/mx.png 2x, https://flagcdn.com/108x81/mx.png 3x" width="36" height="27" alt="Mexique" onclick="setLanguage('es')">
+      <img src="https://flagcdn.com/36x27/de.png" srcset="https://flagcdn.com/72x54/de.png 2x, https://flagcdn.com/108x81/de.png 3x" width="36" height="27" alt="Deutsch" onclick="setLanguage('de')">
+      <img src="https://flagcdn.com/36x27/hu.png" srcset="https://flagcdn.com/72x54/hu.png 2x, https://flagcdn.com/108x81/hu.png 3x" width="36" height="27" alt="Magyar" onclick="setLanguage('hu')">
+    </div>
+  </header>
+  <div class="meteo-barre">🌤 Météo <span id="meteo-texte">Chargement...</span></div>
+  <div class="search-bar">
+    <input type="text" id="search-input" placeholder="🔎 Rechercher un outil, document, etc.">
+    <div id="search-results"></div> <!-- ici on met les résultats -->
+  </div>  
+  <main>
+    <section class="section-group">
+      <h2 id="welcome-title">👋 Bienvenue sur l'intranet EUROCAST</h2>
+      <p class="intro-text" id="intro-text">"Tout ce qu’il vous faut, au même endroit."</p>
+      <div class="service-status">
+        <strong id="service-status-title">🔔 État des services :</strong>
+        <ul>
+          <li id="status-ok">🟢 Tous les services sont opérationnels</li>
+        </ul>
+      </div>
+    </section>
+    <section class="section-group">
+      <h2 id="tools-title">🔗 Outils</h2>
+      <div class="card-grid">
+        <a href="http://bodet-lyon:8089/" target="_blank" class="card">🕒 Kélio</a>
+        <a href="https://memdcglp01.eurocast.local/" target="_blank" class="card">🎫 GLPI</a>
+        <a href="https://m365.cloud.microsoft/onedrive/?acctsw=1" target="_blank" class="card">☁️ OneDrive</a>
+        <a href="https://www.linkedin.com/company/gmd-eurocast/posts/?feedView=all" target="_blank" class="card">ℹ️ Linkedin</a>
+        <a href="https://rds.gmd-eurocast.com/RDWeb/Pages/en-US/Default.aspx" target="_blank" class="card">🦿 Procost</a>
+      </div>
+    </section>
+    <section class="section-group">
+      <h2 id="docs-title">📄 Documents</h2>
+      <div class="card-grid">
+        <a href="Procédures.html" target="_blank" class="card" id="procedures-link">📘 Procédures</a>
+        <a href="annuaire.html" target="_blank" class="card" id="directory-link">📖☎️ Annuaire</a>
+        <a href="CyberSécurité.html" target="_blank" class="card" id="directory-link">🪪🛜 Cybersécurité</a>
+        <a href="New_collaborateur.html" target="_blank" class="card" id="directory-link">🆕🌱 Nouveau Collaborateur</a>
+      </div>
+    </section>
+    <section class="section-group">
+      <h2>🌍 GLPI:</h2>
+      <div class="iframe-wrapper" style="height: 500px;">
+        <iframe src="https://memdcglp01.eurocast.local/" frameborder="0" width="100%" height="100%"></iframe>
+      </div>
+    </section>
+    
+  </main>
+</body>
+</html>

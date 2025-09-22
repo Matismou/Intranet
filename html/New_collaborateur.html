@@ -1,0 +1,733 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Nouveau Collaborateur - Eurocast</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    :root {
+      --primary: #3a6186;
+      --primary-light: #5c85d6;
+      --secondary: #4ecdc4;
+      --background: #f8f9fa;
+      --card-bg: #ffffff;
+      --text: #2d3748;
+      --text-light: #718096;
+      --shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.08), 0 4px 8px -2px rgba(0, 0, 0, 0.05);
+      --radius: 14px;
+      --gradient: linear-gradient(135deg, var(--primary), var(--primary-light));
+    }
+
+    .dark {
+      --primary: #63b3ed;
+      --primary-light: #90cdf4;
+      --secondary: #81e6d9;
+      --background: #121212;
+      --card-bg: #1e1e1e;
+      --text: #f8f9fa;
+      --text-light: #a0a0a0;
+      --shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.15);
+      --gradient: linear-gradient(135deg, var(--primary), var(--primary-light));
+    }
+
+    body {
+      font-family: 'Segoe UI', 'Roboto', 'Helvetica Neue', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: var(--background);
+      color: var(--text);
+      transition: all 0.4s ease;
+      line-height: 1.6;
+    }
+
+    /* Barre latérale */
+    .sidebar {
+      position: fixed;
+      left: 0;
+      top: 0;
+      height: 100vh;
+      width: 80px;
+      background: var(--card-bg);
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1.5rem 0;
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+
+    .sidebar-items {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      flex: 1;
+    }
+
+    .sidebar-item {
+      margin-bottom: 1.5rem;
+      color: var(--text-light);
+      font-size: 1.3rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      padding: 0.5rem;
+      border-radius: 8px;
+      width: 50px;
+      text-align: center;
+    }
+
+    .sidebar-item:hover {
+      color: var(--primary);
+      background: rgba(58, 97, 134, 0.1);
+    }
+
+    .sidebar-item.active {
+      color: var(--primary);
+      background: rgba(58, 97, 134, 0.2);
+    }
+
+    /* Contenu principal */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem 1rem 2rem 100px; /* Ajout de marge à gauche pour la barre latérale */
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 3rem;
+      position: relative;
+    }
+
+    .logo {
+      position: absolute;
+      top: -20px;
+      right: 1rem;
+      height: 150px;
+      width: auto;
+      opacity: 0.9;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+      font-weight: 700;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .subtitle {
+      font-size: 1.2rem;
+      color: var(--text-light);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .apps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .app-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem 1.5rem;
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+      position: relative;
+      overflow: hidden;
+      border-top: 4px solid var(--primary);
+    }
+
+    .app-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+      border-color: var(--primary-light);
+    }
+
+    .app-icon {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+      display: flex;
+      justify-content: center;
+    }
+
+    .app-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+      color: var(--primary);
+      text-align: center;
+    }
+
+    .app-description {
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+      min-height: 60px;
+      text-align: center;
+    }
+
+    .app-actions {
+      display: flex;
+      gap: 0.75rem;
+      margin-top: auto;
+    }
+
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      font-size: 0.95rem;
+      border: none;
+      width: 100%;
+      justify-content: center;
+    }
+
+    .btn-primary {
+      background: var(--gradient);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-light);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background-color: #f1f5f9;
+      color: var(--text);
+    }
+
+    .dark .btn-secondary {
+      background-color: #333;
+      color: white;
+    }
+
+    .btn-secondary:hover {
+      background-color: #e2e8f0;
+      transform: translateY(-2px);
+    }
+
+    .theme-toggle {
+      position: fixed;
+      bottom: 1.5rem;
+      right: 1.5rem;
+      background: var(--card-bg);
+      color: var(--text);
+      border: none;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: var(--shadow);
+      font-size: 1.2rem;
+      z-index: 100;
+      transition: all 0.3s ease;
+    }
+
+    .theme-toggle:hover {
+      transform: scale(1.1);
+    }
+
+    .username-display {
+      position: absolute;
+      top: 1.5rem;
+      left: 1.5rem;
+      background: var(--card-bg);
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      font-weight: 500;
+      border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    /* Modal styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 1000;
+      overflow-y: auto;
+    }
+
+    .modal-content {
+      background: var(--card-bg);
+      margin: 5% auto;
+      padding: 2rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      max-width: 800px;
+      width: 90%;
+      position: relative;
+      border-top: 4px solid var(--primary);
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 1rem;
+      right: 1rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text-light);
+      transition: color 0.2s ease;
+    }
+
+    .close-modal:hover {
+      color: var(--primary);
+    }
+
+    .modal-app-icon {
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      color: var(--primary);
+      display: flex;
+      justify-content: center;
+    }
+
+    .modal-app-title {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: var(--primary);
+      text-align: center;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .modal-app-description {
+      margin-bottom: 2rem;
+      line-height: 1.7;
+      text-align: center;
+      color: var(--text-light);
+    }
+
+    .modal-links {
+      margin-bottom: 2rem;
+      text-align: left;
+    }
+
+    .modal-links h4 {
+      margin-bottom: 1rem;
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .modal-links ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .modal-links li {
+      margin-bottom: 0.75rem;
+      padding-left: 1rem;
+      position: relative;
+    }
+
+    .modal-links li:before {
+      content: "•";
+      color: var(--primary);
+      position: absolute;
+      left: 0;
+    }
+
+    .modal-links a {
+      color: var(--primary-light);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .modal-links a:hover {
+      color: var(--primary);
+      text-decoration: underline;
+    }
+
+    .modal-actions {
+      display: flex;
+      gap: 1rem;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 60px;
+      }
+
+      .container {
+        padding-left: 70px;
+      }
+
+      .apps-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .logo {
+        position: static;
+        margin-bottom: 1rem;
+        height: 150px;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+
+      .app-actions {
+        flex-direction: column;
+      }
+
+      .modal-content {
+        margin: 2rem auto;
+        padding: 1.5rem;
+      }
+
+      .modal-actions {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Barre latérale -->
+  <div class="sidebar">
+    <div class="sidebar-items">
+      <div class="sidebar-item active" onclick="openModal('outlook')">
+        <i class="fas fa-envelope"></i>
+      </div>
+      <div class="sidebar-item" onclick="openModal('onedrive')">
+        <i class="fas fa-cloud"></i>
+      </div>
+      <div class="sidebar-item" onclick="openModal('obilog')">
+        <i class="fas fa-cogs"></i>
+      </div>
+      <div class="sidebar-item" onclick="openModal('newbi')">
+        <i class="fas fa-chart-line"></i>
+      </div>
+      <div class="sidebar-item" onclick="openModal('vpn')">
+        <i class="fas fa-lock"></i>
+      </div>
+      <div class="sidebar-item" onclick="openModal('sage')">
+        <i class="fas fa-ticket-alt"></i>
+      </div>
+    </div>
+  </div>
+
+  <div class="container">
+    <header>
+      <img src="/gmd_eurocast_logo.jpg" alt="Logo Eurocast" class="logo" />
+      <h1>Bienvenue chez Eurocast</h1>
+      <p class="subtitle">Voici les applications et ressources essentielles pour bien démarrer chez Eurocast</p>
+    </header>
+    <div class="apps-grid">
+      <!-- Application 1 -->
+      <div class="app-card">
+        <div class="app-icon">📧</div>
+        <h3 class="app-title">Outlook - Messagerie</h3>
+        <p class="app-description">Accédez à votre messagerie professionnelle pour communiquer avec vos collègues et partenaires.</p>
+        <div class="app-actions">
+          <button class="btn btn-primary" onclick="openModal('outlook')">
+            <span>Détails</span>
+          </button>
+        </div>
+      </div>
+      <!-- Application 2 -->
+      <div class="app-card">
+        <div class="app-icon">📂</div>
+        <h3 class="app-title">OneDrive - Stockage</h3>
+        <p class="app-description">Espace de stockage cloud sécurisé pour vos documents professionnels.</p>
+        <div class="app-actions">
+          <button class="btn btn-primary" onclick="openModal('onedrive')">
+            <span>Détails</span>
+          </button>
+        </div>
+      </div>
+      <!-- Application 3 -->
+      <div class="app-card">
+        <div class="app-icon">🈸</div>
+        <h3 class="app-title">ERP</h3>
+        <p class="app-description">Retrouvez l'ensemble des informations concernant les différentes applications ERP.</p>
+        <div class="app-actions">
+          <button class="btn btn-primary" onclick="openModal('obilog')">
+            <span>Détails</span>
+          </button>
+        </div>
+      </div>
+      <!-- Application 4 -->
+      <div class="app-card">
+        <div class="app-icon">📊</div>
+        <h3 class="app-title">New BI</h3>
+        <p class="app-description">NewBI est un outil d'analyse de données pour des rapports et tableaux de bord interactifs.</p>
+        <div class="app-actions">
+          <button class="btn btn-primary" onclick="openModal('newbi')">
+            <span>Détails</span>
+          </button>
+        </div>
+      </div>
+      <!-- Application 5 -->
+      <div class="app-card">
+        <div class="app-icon">🔒</div>
+        <h3 class="app-title">VPN Entreprise</h3>
+        <p class="app-description">Connectez-vous au réseau de l'entreprise en toute sécurité depuis l'extérieur.</p>
+        <div class="app-actions">
+          <button class="btn btn-primary" onclick="openModal('vpn')">
+            <span>Détails</span>
+          </button>
+        </div>
+      </div>
+      <!-- Application 6 -->
+      <div class="app-card">
+        <div class="app-icon">📚</div>
+        <h3 class="app-title">GLPI</h3>
+        <p class="app-description">GLPI est notre outil de ticketing, il vous permettra de créer vos tickets pour toute demande informatique.</p>
+        <div class="app-actions">
+          <button class="btn btn-primary" onclick="openModal('sage')">
+            <span>Détails</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modals for each application -->
+  <!-- Outlook Modal -->
+  <div id="outlook-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal('outlook')">&times;</span>
+      <div class="modal-app-icon">📧</div>
+      <h3 class="modal-app-title">Outlook - Messagerie</h3>
+      <p class="modal-app-description">
+        Outlook est votre messagerie professionnelle principale. Vous pouvez l'utiliser pour communiquer avec vos collègues,
+        partenaires et clients. Configurez votre signature professionnelle et organisez vos emails avec des dossiers et des règles.
+      </p>
+      <div class="modal-links">
+        <h4>Liens utiles :</h4>
+        <ul>
+          <li><a href="https://outlook.office.com" target="_blank">Accéder à Outlook en ligne</a></li>
+          <li><a href="https://support.microsoft.com/fr-fr/outlook" target="_blank">Documentation d'aide</a></li>
+          <li><a href="https://eurocast.com/guide-outlook" target="_blank">Comment créer sa signature ?</a></li>
+        </ul>
+      </div>
+      <div class="modal-actions">
+        <a href="https://outlook.office.com" class="btn btn-primary" target="_blank">
+          <span>Ouvrir en ligne</span>
+        </a>
+        <button class="btn btn-secondary" onclick="launchApp('outlook')">
+          <span>Ouvrir l'application</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- OneDrive Modal -->
+  <div id="onedrive-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal('onedrive')">&times;</span>
+      <div class="modal-app-icon">📂</div>
+      <h3 class="modal-app-title">OneDrive - Stockage</h3>
+      <p class="modal-app-description">
+        OneDrive est votre espace de stockage cloud sécurisé. Stockez et partagez vos documents professionnels en toute sécurité.
+        Synchronisez vos fichiers sur tous vos appareils et collaborez en temps réel avec vos collègues.
+      </p>
+      <div class="modal-links">
+        <h4>Liens utiles :</h4>
+        <ul>
+          <li><a href="https://onedrive.live.com" target="_blank">Accéder à OneDrive en ligne</a></li>
+          <li><a href="https://support.microsoft.com/fr-fr/onedrive" target="_blank">Documentation d'aide</a></li>
+          <li><a href="https://eurocast.com/politique-stockage" target="_blank">Politique de stockage Eurocast</a></li>
+        </ul>
+      </div>
+      <div class="modal-actions">
+        <a href="https://onedrive.live.com" class="btn btn-primary" target="_blank">
+          <span>Ouvrir en ligne</span>
+        </a>
+        <button class="btn btn-secondary" onclick="launchApp('onedrive')">
+          <span>Ouvrir l'application</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ERP Modal -->
+  <div id="obilog-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal('ERP')">&times;</span>
+      <div class="modal-app-icon">👥</div>
+      <h3 class="modal-app-title">ERP</h3>
+      <p class="modal-app-description">
+        Retrouvez ici les informations concernant les applications ERP :
+        <ul>
+          <li>Obilog/Procost</li>
+          <li>Sage X3</li>
+          <li>Sage Paie</li>
+        </ul>
+      </p>
+      <div class="modal-actions">
+        <a href="https://obilog.eurocast.com" class="btn btn-primary" target="_blank">
+          <span>Ouvrir en ligne</span>
+        </a>
+        <button class="btn btn-secondary" onclick="launchApp('obilog')">
+          <span>Ouvrir l'application</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- New BI Modal -->
+  <div id="newbi-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal('newbi')">&times;</span>
+      <div class="modal-app-icon">📊</div>
+      <h3 class="modal-app-title">New BI</h3>
+      <p class="modal-app-description">
+        NewBI est notre plateforme d'analyse de données avancée. Accédez à des rapports personnalisés, des tableaux de bord interactifs
+        et des analyses en temps réel pour prendre des décisions basées sur les données.
+      </p>
+      <div class="modal-links">
+        <h4>Liens utiles :</h4>
+        <ul>
+          <li><a href="https://bi.eurocast.com" target="_blank">Accéder à NewBI</a></li>
+          <li><a href="https://eurocast.com/formation-newbi" target="_blank">Formation en ligne</a></li>
+          <li><a href="mailto:bi-support@eurocast.com">Support BI</a></li>
+        </ul>
+      </div>
+      <div class="modal-actions">
+        <a href="https://bi.eurocast.com" class="btn btn-primary" target="_blank">
+          <span>Ouvrir en ligne</span>
+        </a>
+        <button class="btn btn-secondary" onclick="launchApp('newbi')">
+          <span>Ouvrir l'application</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- VPN Modal -->
+  <div id="vpn-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal('vpn')">&times;</span>
+      <div class="modal-app-icon">🔒</div>
+      <h3 class="modal-app-title">VPN Entreprise</h3>
+      <p class="modal-app-description">
+        Le VPN vous permet d'accéder au réseau interne d'Eurocast en toute sécurité lorsque vous travaillez à distance.
+        Une connexion sécurisée et chiffrée pour protéger les données sensibles de l'entreprise.
+      </p>
+      <div class="modal-links">
+        <h4>Liens utiles :</h4>
+        <ul>
+          <li><a href="https://vpn.eurocast.com" target="_blank">Portail VPN</a></li>
+          <li><a href="https://eurocast.com/guide-vpn" target="_blank">Guide d'installation</a></li>
+          <li><a href="mailto:it-support@eurocast.com">Support IT</a></li>
+        </ul>
+      </div>
+      <div class="modal-actions">
+        <a href="https://vpn.eurocast.com" class="btn btn-primary" target="_blank">
+          <span>Ouvrir en ligne</span>
+        </a>
+        <button class="btn btn-secondary" onclick="launchApp('vpn')">
+          <span>Ouvrir l'application</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- GLPI Modal -->
+  <div id="sage-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-modal" onclick="closeModal('sage')">&times;</span>
+      <div class="modal-app-icon">📚</div>
+      <h3 class="modal-app-title">GLPI</h3>
+      <p class="modal-app-description">
+        GLPI vous permet de créer un ticket en cas de demande ou problème informatique.
+        Vous pouvez également demander à votre responsable de créer des tickets via les formulaires afin d'avoir des accès supplémentaires.
+      </p>
+      <div class="modal-links">
+        <h4>Liens utiles :</h4>
+        <ul>
+          <li><a href="https://memdcglp01.eurocast.local/" target="_blank">Accéder à GLPI</a></li>
+          <li><a href="https://memdcglp01.eurocast.local/marketplace/formcreator/front/formdisplay.php?id=8" target="_blank">Formulaire d'accès réseaux</a></li>
+          <li><a href="https://memdcglp01.eurocast.local/marketplace/formcreator/front/formdisplay.php?id=7">Formulaire d'accès applicatif</a></li>
+        </ul>
+      </div>
+      <div class="modal-actions">
+        <a href="https://memdcglp01.eurocast.local/" class="btn btn-primary" target="_blank">
+          <span>Ouvrir en ligne</span>
+        </a>
+        <button class="btn btn-secondary" onclick="launchApp('sage')">
+          <span>Ouvrir l'application</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <button id="theme-toggle" class="theme-toggle">🌙</button>
+
+  <script>
+    // Fonction pour lancer les applications (à adapter selon vos besoins)
+    function launchApp(appName) {
+      alert(`Ouverture de l'application ${appName}...`);
+    }
+
+    // Fonctions pour gérer les modales
+    function openModal(appName) {
+      document.getElementById(`${appName}-modal`).style.display = 'block';
+      document.body.style.overflow = 'hidden';
+      // Mise à jour de l'item actif dans la barre latérale
+      const sidebarItems = document.querySelectorAll('.sidebar-item');
+      sidebarItems.forEach(item => item.classList.remove('active'));
+      const activeItem = Array.from(sidebarItems).find(item => item.onclick.toString().includes(appName));
+      if (activeItem) activeItem.classList.add('active');
+    }
+
+    function closeModal(appName) {
+      document.getElementById(`${appName}-modal`).style.display = 'none';
+      document.body.style.overflow = 'auto';
+    }
+
+    // Fermer la modale en cliquant en dehors du contenu
+    window.onclick = function(event) {
+      const modals = document.querySelectorAll('.modal');
+      modals.forEach(modal => {
+        if (event.target == modal) {
+          modal.style.display = 'none';
+          document.body.style.overflow = 'auto';
+        }
+      });
+    };
+
+    // Gestion du thème sombre
+    const savedTheme = localStorage.getItem("theme");
+    const themeToggle = document.getElementById("theme-toggle");
+
+    if (savedTheme === "dark") {
+      document.documentElement.classList.add("dark");
+      themeToggle.textContent = "☀️";
+    }
+
+    themeToggle.addEventListener("click", () => {
+      const isDark = document.documentElement.classList.toggle("dark");
+      localStorage.setItem("theme", isDark ? "dark" : "light");
+      themeToggle.textContent = isDark ? "☀️" : "🌙";
+    });
+  </script>
+</body>
+</html>

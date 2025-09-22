@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Annuaire - Intranet</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #f5f7fa;
+    }
+    .annuaire-container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 20px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .search-bar {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .search-bar input {
+      padding: 10px;
+      font-size: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      width: 80%;
+      max-width: 400px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background-color: #004080;
+      color: white;
+    }
+    .back-button {
+      margin-top: 30px;
+      text-align: center;
+    }
+    .back-button a {
+      display: inline-block;
+      background: #004080;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+    .back-button a:hover {
+      background: #0066cc;
+    }
+  </style>
+</head>
+<body>
+  <div class="annuaire-container">
+    <h1>📒 Annuaire du personnel</h1>
+    <div class="search-bar">
+      <input type="text" id="search-annuaire" placeholder="🔍 Rechercher un nom, prénom ou numéro...">
+    </div>
+    <table id="annuaire-table">
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Prénom</th>
+          <th>Téléphone</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr><td>LABROUSSE</td><td>Geoffrey</td><td>06 18 82 62 90</td></tr>
+<tr><td>POTHIER</td><td>Benoit</td><td>06 70 06 92 83</td></tr>
+<tr><td>MERCIER</td><td>Pierre</td><td>06 85 33 31 88</td></tr>
+<tr><td>ALLAIX</td><td>Bernard</td><td>06 07 06 23 39</td></tr>
+<tr><td>GLOAGUEN</td><td>Arthur</td><td>06 49 26 20 22</td></tr>
+<tr><td>Technicien</td><td>Informatique</td><td>06 49 26 20 39</td></tr>
+<tr><td>CHEZE</td><td>Violaine</td><td>06 49 26 21 61</td></tr>
+<tr><td>BROUDIC</td><td>Valerie</td><td>06 49 26 18 64</td></tr>
+<tr><td>HANIN</td><td>Marine</td><td>06 32 33 95 40</td></tr>
+<tr><td>KHIYAR</td><td>Smaïl</td><td>06 21 53 37 89</td></tr>
+<tr><td>LACROIX</td><td>Grégory</td><td>06 22 71 23 42</td></tr>
+<tr><td>DAFFIS</td><td>Emilie</td><td>06 18 82 62 69</td></tr>
+<tr><td>MATHIAS</td><td>François</td><td>06 80 16 97 67</td></tr>
+<tr><td>NAIT</td><td>IDIR Nordine</td><td>06 18 82 62 76</td></tr>
+<tr><td>SENE</td><td>Pascal</td><td>07 50 12 81 74</td></tr>
+<tr><td>SCOTTI</td><td>Marc</td><td>06 46 13 18 27</td></tr>
+<tr><td>SELIG</td><td>Christophe</td><td>06 85 32 58 98</td></tr>
+<tr><td>FROSSARD</td><td>Christelle</td><td>06 23 80 75 13</td></tr>
+<tr><td>EYRAUD</td><td>Christophe</td><td>06 34 19 06 89</td></tr>
+<tr><td>CHAUSSADE</td><td>Cedric</td><td>06 82 19 08 18</td></tr>
+<tr><td>DANELUZZI</td><td>Didier</td><td>06 18 82 62 62</td></tr>
+<tr><td>DEFFRADAS</td><td>Marie-Pierre</td><td>06 86 38 70 04</td></tr>
+<tr><td>CAMOZZI</td><td>Tifenn</td><td>06 25 12 75 48</td></tr>
+<tr><td>DO</td><td>NASCIMENTO Jose</td><td>06 85 32 59 09</td></tr>
+<tr><td>FONTANEL</td><td>Daniel</td><td>06 30 54 04 61</td></tr>
+<tr><td>FOUCAUT</td><td>Guillaume</td><td>06 12 53 12 66</td></tr>
+<tr><td>GUERRAZ</td><td>Patrice</td><td>06 03 33 80 53</td></tr>
+<tr><td>ROMEYER</td><td>Philippe</td><td>06 28 10 01 56</td></tr>
+<tr><td>BARGIGGIA</td><td>Marcello</td><td>06 46 63 37 60</td></tr>
+<tr><td>LEININGER</td><td>Guy</td><td>06 16 83 76 24</td></tr>
+<tr><td>CAPOLINO</td><td>Joelle</td><td>06 18 82 63 00</td></tr>
+<tr><td>MALLASSI</td><td>Godefroy</td><td>06 24 91 43 03</td></tr>
+<tr><td>MARSILLY</td><td>Thierry</td><td>06 32 38 30 04</td></tr>
+<tr><td>RIVIERE</td><td>Stephane</td><td>07 50 12 81 69</td></tr>
+<tr><td>Ligne</td><td>PTI Pou du Ciel</td><td>06 20 57 70 21</td></tr>
+<tr><td>GRIECO</td><td>Guillaume</td><td>06 25 12 74 84</td></tr>
+<tr><td>GNEMANDET</td><td>Pierre-Marie</td><td>07 50 15 20 99</td></tr>
+<tr><td>DELAVAL</td><td>Laurent</td><td>07 50 12 81 73</td></tr>
+<tr><td>ASTREINTE</td><td>Maintenance</td><td>06 21 16 15 75</td></tr>
+<tr><td>TABARANI</td><td>Soufiane</td><td>06 24 84 25 31</td></tr>
+<tr><td>BOUKHELIFA</td><td>Mokrane</td><td>07 50 14 06 86</td></tr>
+<tr><td>CSE</td><td>4G LYON</td><td>06 64 81 12 38</td></tr>
+<tr><td>DETRAU</td><td>David</td><td>06 89 90 49 12</td></tr>
+<tr><td>FERRARA</td><td>Carlo</td><td>06 21 70 39 51</td></tr>
+<tr><td>BECCARIA</td><td>Tais</td><td>06 50 86 51 22</td></tr>
+<tr><td>SOVANT</td><td>Philippe</td><td>06 80 30 13 90</td></tr>
+<tr><td>PECCI</td><td>Jean Christophe</td><td>06 76 39 91 93</td></tr>
+<tr><td>ZERROUKI</td><td>Slimane</td><td>06 50 23 78 81</td></tr>
+<tr><td>MICHON</td><td>Caroline</td><td>06 69 58 15 33</td></tr>
+<tr><td>LABORIE</td><td>Bernard</td><td>06 35 44 45 72</td></tr>
+<tr><td>MONNET</td><td>Sandrine</td><td>06 25 12 74 74</td></tr>
+<tr><td>ASTREINTE</td><td>X</td><td>06 46 21 44 88</td></tr>
+<tr><td>FAVRE</td><td>ROCHEX Fabien</td><td>06 35 18 26 65</td></tr>
+<tr><td>FOREST</td><td>Stéphane</td><td>06 08 23 92 14</td></tr>
+<tr><td>SIEFFERT</td><td>Sara</td><td>06 23 80 75 18</td></tr>
+<tr><td>RGUIBI</td><td>Rehra</td><td>06 29 19 79 92</td></tr>
+<tr><td>CAMPS</td><td>Emilie</td><td>06 34 29 43 98</td></tr>
+<tr><td>PERRAS</td><td>Julien</td><td>06 23 80 75 20</td></tr>
+<tr><td>LAMBERT</td><td>Cédric</td><td>06 08 72 19 20</td></tr>
+<tr><td>LAVERDURE</td><td>Stéphane</td><td>06 07 96 17 93</td></tr>
+<tr><td>APPREDERISSE</td><td>Vincent</td><td>06 34 02 66 39</td></tr>
+<tr><td>ASTREINTE</td><td></td><td>06 46 42 22 23</td></tr>
+<tr><td>GIL</td><td>Alain</td><td>06 19 19 23 68</td></tr>
+<tr><td>DECLERCK</td><td>Thierry</td><td>06 34 24 81 86</td></tr>
+<tr><td>HIDOUSSI</td><td>Samir</td><td>06 25 12 74 23</td></tr>
+<tr><td>HOUISSA</td><td>Yssam</td><td>06 28 95 12 05</td></tr>
+<tr><td>ALONSO</td><td>Claudio</td><td>06 46 36 53 59</td></tr>
+<tr><td>DUDEFANT</td><td>Thomas</td><td>06 11 18 25 95</td></tr>
+<tr><td>COLAS</td><td>Aurelie</td><td>06 75 47 61 94</td></tr>
+<tr><td>GRAFFIN</td><td>Cédric</td><td>06 88 38 92 38</td></tr>
+<tr><td>ASTREINTE</td><td>Mecanique</td><td>06 75 47 62 17</td></tr>
+<tr><td>BONNAUD</td><td>Frederic</td><td>06 70 23 01 47</td></tr>
+<tr><td>PEREIRA</td><td>MOTA David</td><td>06 28 62 20 31</td></tr>
+<tr><td>MICHELONI</td><td>Grégoire</td><td>06 34 20 65 03</td></tr>
+<tr><td>DRIARD</td><td>Christian</td><td>06 09 95 62 99</td></tr>
+<tr><td>FLAUS</td><td>Thomas</td><td>06 25 85 48 76</td></tr>
+<tr><td>ATHENOL</td><td>Eric</td><td>06 46 14 34 78</td></tr>
+<tr><td>GUEDO</td><td>Jerome</td><td>06 29 97 25 13</td></tr>
+<tr><td>MOREAU</td><td>Antoine</td><td>06 11 39 01 09</td></tr>
+<tr><td>LYONNAIS</td><td>Herve</td><td>06 74 44 16 44</td></tr>
+<tr><td>DEVIGNE</td><td>Adrien Paulo</td><td>06 24 69 67 03</td></tr>
+<tr><td>NAUDON</td><td>Thierry</td><td>06 46 21 07 28</td></tr>
+<tr><td>JOUANNET</td><td>Richard</td><td>06 46 59 05 90</td></tr>
+<tr><td>ROYER</td><td>Jean Francois</td><td>06 72 71 00 97</td></tr>
+<tr><td>ROUHART</td><td>Gary</td><td>06 75 47 61 82</td></tr>
+<tr><td>MOUSTRAIRE</td><td>Alexandre</td><td>06 15 39 64 89</td></tr>
+<tr><td>ASTREINTE</td><td>X</td><td>06 77 15 64 51</td></tr>
+<tr><td>COULOUMY</td><td>Patrick</td><td>06 77 53 59 22</td></tr>
+<tr><td>PETITJEAN</td><td>Nicolas</td><td>06 15 39 63 78</td></tr>
+<tr><td>DONJON</td><td>Jean Michel</td><td>06 07 91 24 77</td></tr>
+<tr><td>WOJTOWICZ</td><td>Nicolas</td><td>06 08 05 50 50</td></tr>
+<tr><td>SCARABELLO</td><td>Thierry</td><td>06 70 35 53 94</td></tr>
+<tr><td>GAYDON</td><td>Anthony</td><td>07 89 26 08 93</td></tr>
+<tr><td>CHEBBAL</td><td>Said</td><td>06 31 23 18 67</td></tr>
+<tr><td>PTI</td><td>Maintenance</td><td>06 37 46 88 28</td></tr>
+<tr><td>PTI</td><td>Fusion</td><td>06 37 47 66 03</td></tr>
+<tr><td>ABES</td><td>Youcef</td><td>06 31 23 03 24</td></tr>
+<tr><td>TASCO</td><td>Ion</td><td>07 72 77 15 17</td></tr>
+<tr><td>BAZUS</td><td>Franck</td><td>06 75 93 09 84</td></tr>
+<tr><td>ESTASSY</td><td>Bruno</td><td>07 85 97 89 12</td></tr>
+<tr><td>PERILLAUD</td><td>Xavier</td><td>06 43 79 71 36</td></tr>
+<tr><td>PISANI</td><td>Thomas</td><td>06 43 79 59 30</td></tr>
+<tr><td>HAMMOUN</td><td>Marie-Agnes</td><td>07 72 18 12 07</td></tr>
+<tr><td>PTI</td><td>LYON</td><td>06 31 24 96 22</td></tr>
+<tr><td>MUSIELAK</td><td>Didier</td><td>06 31 25 07 41</td></tr>
+<tr><td>PLAYS</td><td>Pierre</td><td>06 31 16 70 91</td></tr>
+<tr><td>MAYET</td><td>Yves</td><td>06 67 76 48 20</td></tr>
+<tr><td>Chefs</td><td>d'équipe</td><td>06 42 31 13 22</td></tr>
+<tr><td>BACILIERI</td><td>Sylvain</td><td>06 42 35 22 73</td></tr>
+<tr><td>Equipe</td><td>de Nuit EUROCAST</td><td>06 76 97 32 32</td></tr>
+<tr><td>Equipe</td><td>de jour EUROCAST</td><td>06 76 97 30 12</td></tr>
+<tr><td>SCHAUB</td><td>Agnès</td><td>07 86 83 82 34</td></tr>
+<tr><td>DUMONT</td><td>Olivier</td><td>06 07 18 07 21</td></tr>
+<tr><td>BILLON</td><td>David</td><td>06 81 29 95 25</td></tr>
+<tr><td>DUPUIS</td><td>Sylvia</td><td>06 81 29 83 79</td></tr>
+<tr><td>ORHAN</td><td>Yucel</td><td>06 81 29 88 68</td></tr>
+<tr><td>PINAULT</td><td>Romuald</td><td>06 76 68 68 42</td></tr>
+<tr><td>LEJEUNE</td><td>Sébastien</td><td>07 85 80 26 83</td></tr>
+<tr><td>SIGNORINO</td><td>Sylvain</td><td>07 85 76 66 23</td></tr>
+<tr><td>OUNI</td><td>Elias</td><td>07 86 92 91 95</td></tr>
+<tr><td>LEJEUNE</td><td>Sara</td><td>06 80 46 94 67</td></tr>
+<tr><td>MAOUSSI</td><td>Essam</td><td>06 76 60 50 43</td></tr>
+<tr><td>PAULIN</td><td>Olivier</td><td>06 76 64 61 22</td></tr>
+<tr><td>CsE</td><td></td><td>06 82 21 84 11</td></tr>
+<tr><td>CsE</td><td></td><td>06 82 21 96 04</td></tr>
+<tr><td>QUEYRIAUX</td><td>Nathalie</td><td>06 83 95 05 44</td></tr>
+<tr><td>Montre</td><td>MAGNETA</td><td>06 80 02 83 74</td></tr>
+<tr><td>THIBOUT</td><td>Benoit</td><td>06 86 72 12 28</td></tr>
+<tr><td>Thierry</td><td>Curtil - Astreinte</td><td>06 85 18 26 11</td></tr>
+<tr><td>MORAND</td><td>Fabien</td><td>06 88 06 34 43</td></tr>
+<tr><td>Franck</td><td>JANNY</td><td>06 85 97 25 06</td></tr>
+<tr><td>MARINET</td><td>Alexis</td><td>06 49 32 96 88</td></tr>
+<tr><td>GUILLON</td><td>Benoit</td><td>06 49 32 96 80</td></tr>
+<tr><td>JACQUIN</td><td>Ludovice</td><td>06 49 32 96 86</td></tr>
+<tr><td>HERAULT</td><td>Maxime</td><td>06 49 32 96 91</td></tr>
+<tr><td>AMAT</td><td>Thierry</td><td>07 72 21 98 82</td></tr>
+<tr><td>CHRISTIN</td><td>Jéremy</td><td>07 72 21 98 79</td></tr>
+<tr><td>SABOULT</td><td>Medhi</td><td>06 49 32 97 02</td></tr>
+<tr><td>BOVAL</td><td>Sophie</td><td>07 72 21 98 87</td></tr>
+<tr><td>ROLAND</td><td>Thierry</td><td>07 86 45 16 42</td></tr>
+      </tbody>
+    </table>
+    <div class="back-button">
+      <a href="index.html">← Retour à l'accueil</a>
+    </div>
+  </div>
+  <script>
+    const input = document.getElementById("search-annuaire");
+    input.addEventListener("keyup", function () {
+      const filter = input.value.toLowerCase();
+      const rows = document.querySelectorAll("#annuaire-table tbody tr");
+      rows.forEach(row => {
+        row.style.display = row.textContent.toLowerCase().includes(filter) ? "table-row" : "none";
+      });
+    });
+  </script>
+</body>
+</html>
