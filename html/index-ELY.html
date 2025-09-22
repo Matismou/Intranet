@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>🌐 INTRANET EUROCAST - {{ site }}</title>
-  <p id="user-welcome">Chargement...</p>
   <link rel="stylesheet" href="style.css" />
   <script defer src="lang.js"></script>
   <script defer src="script.js"></script>
@@ -56,6 +55,9 @@
 <body>
   <header>
     <h1 id="title">🌐INTRANET EUROCAST</h1>
+    <div class="user-welcome-wrapper">
+      <p id="user-welcome">Chargement...</p>
+    </div>
     <div class="language-selector">
       <img src="https://flagcdn.com/36x27/fr.png" srcset="https://flagcdn.com/72x54/fr.png 2x, https://flagcdn.com/108x81/fr.png 3x" width="36" height="27" alt="France" onclick="setLanguage('fr')">
       <img src="https://flagcdn.com/36x27/gb-eng.png" srcset="https://flagcdn.com/72x54/gb-eng.png 2x, https://flagcdn.com/108x81/gb-eng.png 3x" width="36" height="27" alt="English" onclick="setLanguage('en')">
@@ -79,6 +81,17 @@
         <ul>
           <li id="status-ok">🟢 Tous les services sont opérationnels</li>
         </ul>
+      </div>
+      <!-- CTA Nouveaux Collaborateurs -->
+      <div class="new-collab-cta" role="region" aria-label="Nouveaux collaborateurs">
+        <div class="cta-content">
+          <span class="cta-emoji">🆕🌱</span>
+          <div class="cta-text">
+            <strong>Nouveau collaborateur ?</strong>
+            <span>Commencez ici pour accéder à toutes les informations utiles.</span>
+          </div>
+          <a href="New_collaborateur.html" class="cta-button">Accéder à l'espace dédié</a>
+        </div>
       </div>
     </section>
     <section class="section-group">
