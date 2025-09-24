@@ -26,10 +26,34 @@
       </div>
     </div>
   </header>
-  <div class="search-bar">
-    <input type="text" id="search-input" placeholder="🔎 Rechercher un outil, document, etc.">
-    <div id="search-results"></div> <!-- ici on met les résultats -->
-  </div>  
+  <div class="top-toolbar">
+    <!-- Recherche interne à gauche -->
+    <div class="search-bar">
+      <input type="text" id="search-input" placeholder="🔎 Rechercher un outil, document, etc.">
+      <div id="search-results"></div>
+    </div>
+
+    <!-- Recherche Google au centre -->
+    <form class="google-search" action="https://www.google.com/search" method="get" target="_blank" role="search" aria-label="Recherche Google">
+      <input type="text" id="google-query" name="q" placeholder="🌍 Rechercher sur Google" />
+    </form>
+
+    <!-- Météo à droite -->
+    <div class="meteo-barre" role="region" aria-label="Météo par site">
+      <div class="meteo-inner">
+        <label for="ville-select">🌤 Météo :</label>
+        <select id="ville-select" onchange="chargerMeteoDepuisChoix()" aria-label="Choisir une ville">
+          <option value="Lyon">Lyon</option>
+          <option value="Thonon-les-Bains">Thonon</option>
+          <option value="Brive-la-Gaillarde">Brive</option>
+          <option value="Reyrieux">Reyrieux</option>
+          <option value="Delle">Delle</option>
+          <option value="Châteauroux">Châteauroux</option>
+        </select>
+        <span id="meteo-texte">Chargement...</span>
+      </div>
+    </div>
+  </div>
   <main>
     <section class="section-group">
       <h2 id="welcome-title">👋 Bienvenue sur l'intranet EUROCAST</h2>
@@ -52,29 +76,95 @@
         </div>
       </div>
     </section>
+
     <section class="section-group">
       <h2 id="tools-title">🔗 Outils</h2>
       <div class="card-grid">
-  <a href="http://bodet-lyon:8089/" target="_blank" rel="noopener noreferrer" class="card">🕒 Kélio</a>
-  <a href="https://memdcglp01.eurocast.local/" target="_blank" rel="noopener noreferrer" class="card">🎫 GLPI</a>
-  <a href="https://m365.cloud.microsoft/onedrive/?acctsw=1" target="_blank" rel="noopener noreferrer" class="card">☁️ OneDrive</a>
-  <a href="https://www.linkedin.com/company/gmd-eurocast/posts/?feedView=all" target="_blank" rel="noopener noreferrer" class="card">ℹ️ Linkedin</a>
-  <a href="https://rds.gmd-eurocast.com/RDWeb/Pages/en-US/Default.aspx" target="_blank" rel="noopener noreferrer" class="card">🦿 Procost</a>
+        <a href="http://bodet-lyon:8089/" target="_blank" rel="noopener noreferrer" class="card">🕒 Kélio</a>
+        <a href="https://memdcglp01.eurocast.local/" target="_blank" rel="noopener noreferrer" class="card">🎫 GLPI</a>
+        <a href="https://m365.cloud.microsoft/onedrive/?acctsw=1" target="_blank" rel="noopener noreferrer" class="card">☁️ OneDrive</a>
+        <a href="https://www.linkedin.com/company/gmd-eurocast/posts/?feedView=all" target="_blank" rel="noopener noreferrer" class="card">ℹ️ Linkedin</a>
+        <a href="https://rds.gmd-eurocast.com/RDWeb/Pages/en-US/Default.aspx" target="_blank" rel="noopener noreferrer" class="card">🦿 Procost</a>
       </div>
     </section>
+
     <section class="section-group">
       <h2 id="docs-title">📄 Documents</h2>
       <div class="card-grid">
-  <a href="Procédure.html" target="_blank" rel="noopener noreferrer" class="card" id="procedures-link">📘 Procédures</a>
-  <a href="annuaire.html" target="_blank" rel="noopener noreferrer" class="card" id="directory-link">📖☎️ Annuaire</a>
-  <a href="CyberSécurité.html" target="_blank" rel="noopener noreferrer" class="card" id="directory-link">🪪🛜 Cybersécurité</a>
-  <a href="New_collaborateur.html" target="_blank" rel="noopener noreferrer" class="card" id="directory-link">🆕🌱 Nouveau Collaborateur</a>
+        <a href="Procédure.html" target="_blank" rel="noopener noreferrer" class="card" id="procedures-link">📘 Procédures</a>
+        <a href="annuaire.html" target="_blank" rel="noopener noreferrer" class="card" id="directory-link">📖☎️ Annuaire</a>
+        <a href="CyberSécurité.html" target="_blank" rel="noopener noreferrer" class="card" id="directory-link">🪪🛜 Cybersécurité</a>
+        <a href="New_collaborateur.html" target="_blank" rel="noopener noreferrer" class="card" id="directory-link">🆕🌱 Nouveau Collaborateur</a>
       </div>
     </section>
+
+    <section class="section-group" id="bp-section">
+      <h2>🛡️ Bonnes pratiques informatiques</h2>
+      <p>Afin d'assurer la sécurité de nos systèmes d'information, voici les réflexes essentiels en cas d'e-mail suspect.</p>
+      <ul class="bp-summary">
+        <li>Transférez immédiatement l'e-mail à <a href="mailto:it-eurocast@gmd-eurocast.com">it-eurocast@gmd-eurocast.com</a> pour analyse.</li>
+        <li>Ne cliquez sur aucun lien, ne répondez pas et ne saisissez jamais vos identifiants.</li>
+        <li>Vos identifiants/mots de passe sont personnels: ne les communiquez jamais.</li>
+      </ul>
+      <div class="bp-actions" style="margin-top: 10px;">
+        <button id="toggle-bp-details" type="button" class="btn-accent">Lire maintenant</button>
+        <button id="open-bp-modal" type="button" class="btn-secondary">Ouvrir en grand</button>
+        <a class="cta-button" href="Bonnes_pratiques.pdf" target="_blank" rel="noopener noreferrer">PDF</a>
+      </div>
+      <div id="bp-details" class="bp-details" style="display:none;">
+        <h3>⚠️ Alerte de sécurité - Phishing</h3>
+        <ul>
+          <li>Transmettez-le immédiatement à <a href="mailto:it-eurocast@gmd-eurocast.com">it-eurocast@gmd-eurocast.com</a> pour analyse.</li>
+          <li>Ne cliquez sur aucun lien, ne répondez pas et ne saisissez jamais vos informations de connexion.</li>
+          <li>Les identifiants et mots de passe sont strictement confidentiels : ne les donnez jamais.</li>
+        </ul>
+        <h3>👉 Si vous avez cliqué ou saisi vos données d'accès :</h3>
+        <ol>
+          <li>Contactez immédiatement les services informatiques au <a href="tel:+33478412464">04 78 41 24 64</a> ou <a href="mailto:it-eurocast@gmd-eurocast.com">it-eurocast@gmd-eurocast.com</a>.</li>
+          <li>Réinitialisez votre mot de passe immédiatement.</li>
+        </ol>
+        <div class="pdf-preview" style="height: 320px;">
+          <object data="Bonnes_pratiques.pdf" type="application/pdf" width="100%" height="100%">
+            <p>Aperçu indisponible. Vous pouvez <a href="Bonnes_pratiques.pdf" target="_blank" rel="noopener noreferrer">télécharger le PDF</a>.</p>
+          </object>
+        </div>
+      </div>
+    </section>
+
+    <!-- Best Practices Modal -->
+    <div id="bp-modal" class="modal" aria-hidden="true" role="dialog" aria-modal="true">
+      <div class="modal__backdrop" data-close="bp-modal"></div>
+      <div class="modal__dialog" role="document" aria-labelledby="bp-modal-title">
+        <button class="modal__close" type="button" data-close="bp-modal" aria-label="Fermer">✕</button>
+        <h2 id="bp-modal-title">🛡️ Bonnes pratiques informatiques</h2>
+        <p>Afin d'assurer la sécurité de nos systèmes d'information, nous vous rappelons la marche à suivre si vous recevez un e-mail suspect :</p>
+        <h3>⚠️ Alerte de sécurité - Phishing</h3>
+        <ul>
+          <li>Transmettez-le immédiatement à <a href="mailto:it-eurocast@gmd-eurocast.com">it-eurocast@gmd-eurocast.com</a> pour analyse.</li>
+          <li>Ne cliquez sur aucun lien, ne répondez pas et ne saisissez jamais vos informations de connexion.</li>
+          <li>Les identifiants et mots de passe sont strictement confidentiels : ne les donnez jamais.</li>
+        </ul>
+        <h3>👉 Si vous avez cliqué ou saisi vos données d'accès :</h3>
+        <ol>
+          <li>Contactez immédiatement les services informatiques au <a href="tel:+33478412464">04 78 41 24 64</a> ou <a href="mailto:it-eurocast@gmd-eurocast.com">it-eurocast@gmd-eurocast.com</a>.</li>
+          <li>Réinitialisez votre mot de passe immédiatement.</li>
+        </ol>
+        <p>Votre vigilance est essentielle à la sécurité de nos systèmes.</p>
+        <div class="pdf-preview" style="height: 360px;">
+          <object data="Bonnes_pratiques.pdf" type="application/pdf" width="100%" height="100%">
+            <p>Aperçu indisponible. Vous pouvez <a href="Bonnes_pratiques.pdf" target="_blank" rel="noopener noreferrer">télécharger le PDF</a>.</p>
+          </object>
+        </div>
+      </div>
+    </div>
     <section class="section-group">
-      <h2>🌍 GLPI:</h2>
-      <div class="iframe-wrapper" style="height: 500px;">
-        <iframe src="https://memdcglp01.eurocast.local/" frameborder="0" width="100%" height="100%"></iframe>
+      <h2>🌍 GLPI</h2>
+      <div class="glpi-loader" style="display:flex; gap:12px; flex-wrap:wrap; align-items:center;">
+        <a href="https://memdcglp01.eurocast.local/" target="_blank" rel="noopener noreferrer" class="cta-button">Ouvrir GLPI dans un nouvel onglet</a>
+        <button id="show-glpi" type="button" class="cta-button">Afficher GLPI ici</button>
+      </div>
+      <div class="iframe-wrapper" id="glpi-frame-wrapper" style="height: 500px; display:none;">
+        <iframe id="glpi-iframe" data-src="https://memdcglp01.eurocast.local/" frameborder="0" width="100%" height="100%" loading="lazy" tabindex="-1"></iframe>
       </div>
     </section>
     

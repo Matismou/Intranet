@@ -21,6 +21,53 @@ window.addEventListener('DOMContentLoaded', async () => {
       if (!e.target.closest('.search-bar')) clearSuggestions(results);
     });
   }
+
+  // Lazy-load GLPI iframe to prevent auto-scroll to bottom on page load
+  const showGlpiBtn = document.getElementById('show-glpi');
+  const glpiWrapper = document.getElementById('glpi-frame-wrapper');
+  const glpiIframe = document.getElementById('glpi-iframe');
+  if (showGlpiBtn && glpiWrapper && glpiIframe) {
+    showGlpiBtn.addEventListener('click', () => {
+      const src = glpiIframe.getAttribute('data-src');
+      if (src && !glpiIframe.src) {
+        glpiIframe.src = src;
+      }
+      glpiWrapper.style.display = 'block';
+      glpiWrapper.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  }
+
+  // Best Practices modal
+  const bpOpen = document.getElementById('open-bp-modal');
+  const bpModal = document.getElementById('bp-modal');
+  if (bpOpen && bpModal) {
+    const closeElems = bpModal.querySelectorAll('[data-close="bp-modal"]');
+    const openModal = () => { bpModal.setAttribute('aria-hidden', 'false'); };
+    const closeModal = () => { bpModal.setAttribute('aria-hidden', 'true'); };
+    bpOpen.addEventListener('click', openModal);
+    closeElems.forEach(el => el.addEventListener('click', closeModal));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') closeModal();
+    });
+  }
+
+  // Best Practices inline details
+  const bpDetailsBtn = document.getElementById('toggle-bp-details');
+  const bpDetails = document.getElementById('bp-details');
+  if (bpDetailsBtn && bpDetails) {
+    bpDetailsBtn.addEventListener('click', () => {
+      const visible = bpDetails.style.display !== 'none';
+      bpDetails.style.display = visible ? 'none' : 'block';
+      bpDetailsBtn.textContent = visible ? 'Lire maintenant' : 'Masquer le détail';
+    });
+  }
+
+  // Init météo (default city if present)
+  const villeSelect = document.getElementById('ville-select');
+  if (villeSelect) {
+    // Trigger once on load using current selection
+    try { await chargerMeteoDepuisChoix(); } catch { /* noop */ }
+  }
 });
 
 function capitalize(s) { return s ? s.charAt(0).toUpperCase() + s.slice(1) : s; }
@@ -57,4 +104,25 @@ function renderSuggestions(items, query, container) {
 
 function clearSuggestions(container) {
   container.innerHTML = '';
+}
+
+// --- Météo ---
+const apiKey = 'd0d485d19c0ab1582d6e3d981c8e1849'; // Remplacer par votre vraie clé si besoin
+
+async function chargerMeteoDepuisChoix() {
+  const select = document.getElementById('ville-select');
+  const out = document.getElementById('meteo-texte');
+  if (!select || !out) return;
+  const ville = select.value;
+  try {
+    out.textContent = 'Chargement...';
+    const res = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${encodeURIComponent(ville)},FR&appid=${apiKey}&units=metric&lang=fr`);
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    const temp = Math.round(data.main?.temp);
+    const meteo = data.weather?.[0]?.description || '';
+    out.textContent = `${ville} – ${isFinite(temp) ? temp + '°C' : ''}${meteo ? ', ' + meteo : ''}`;
+  } catch (err) {
+    out.textContent = '⚠️ Météo indisponible';
+  }
 }
