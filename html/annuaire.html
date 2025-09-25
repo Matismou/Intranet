@@ -25,9 +25,14 @@
       padding: 10px;
       font-size: 1rem;
       border-radius: 8px;
-      border: 1px solid #ccc;
+      border: 1px solid #e2e8f0;
       width: 80%;
       max-width: 400px;
+    }
+    .search-bar input:focus {
+      outline: none;
+      border-color: #b31217;
+      box-shadow: 0 0 0 3px rgba(229,57,53,0.15);
     }
     table {
       width: 100%;
@@ -40,7 +45,7 @@
       text-align: left;
     }
     th {
-      background-color: #004080;
+      background-color: #b31217;
       color: white;
     }
     .back-button {
@@ -49,14 +54,15 @@
     }
     .back-button a {
       display: inline-block;
-      background: #004080;
+      background: linear-gradient(135deg, #e53935 0%, #b31217 100%);
+      border: 1px solid #b31217;
       color: white;
       padding: 10px 20px;
       text-decoration: none;
       border-radius: 6px;
     }
     .back-button a:hover {
-      background: #0066cc;
+      background: linear-gradient(135deg, #ff5252 0%, #b31217 100%);
     }
   </style>
 </head>

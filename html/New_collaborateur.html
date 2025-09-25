@@ -7,28 +7,30 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
   <style>
     :root {
-      --primary: #3a6186;
-      --primary-light: #5c85d6;
-      --secondary: #4ecdc4;
-      --background: #f8f9fa;
+      /* Palette alignée sur index-ELY (rouges + neutres) */
+      --primary: #b31217; /* rouge principal */
+      --primary-light: #e53935; /* rouge plus clair */
+      --secondary: #ff5252; /* accent */
+      --background: #f5f7fa; /* fond page */
       --card-bg: #ffffff;
-      --text: #2d3748;
-      --text-light: #718096;
+      --text: #333333;
+      --text-light: #64748b;
       --shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.08), 0 4px 8px -2px rgba(0, 0, 0, 0.05);
       --radius: 14px;
-      --gradient: linear-gradient(135deg, var(--primary), var(--primary-light));
+      --gradient: linear-gradient(135deg, var(--primary-light), var(--primary));
     }
 
     .dark {
-      --primary: #63b3ed;
-      --primary-light: #90cdf4;
-      --secondary: #81e6d9;
+      /* Variante sombre cohérente */
+      --primary: #ff6b6b;
+      --primary-light: #ff8a80;
+      --secondary: #ffd1d1;
       --background: #121212;
       --card-bg: #1e1e1e;
       --text: #f8f9fa;
       --text-light: #a0a0a0;
       --shadow: 0 6px 12px -2px rgba(0, 0, 0, 0.2), 0 4px 8px -2px rgba(0, 0, 0, 0.15);
-      --gradient: linear-gradient(135deg, var(--primary), var(--primary-light));
+      --gradient: linear-gradient(135deg, var(--primary-light), var(--primary));
     }
 
     body {
@@ -79,12 +81,12 @@
 
     .sidebar-item:hover {
       color: var(--primary);
-      background: rgba(58, 97, 134, 0.1);
+      background: rgba(179, 18, 23, 0.1);
     }
 
     .sidebar-item.active {
       color: var(--primary);
-      background: rgba(58, 97, 134, 0.2);
+      background: rgba(179, 18, 23, 0.2);
     }
 
     /* Contenu principal */
@@ -570,7 +572,7 @@
   <!-- ERP Modal -->
   <div id="obilog-modal" class="modal">
     <div class="modal-content">
-      <span class="close-modal" onclick="closeModal('ERP')">&times;</span>
+      <span class="close-modal" onclick="closeModal('obilog')">&times;</span>
       <div class="modal-app-icon">👥</div>
       <h3 class="modal-app-title">ERP</h3>
       <p class="modal-app-description">
