@@ -1,4 +1,10 @@
 window.addEventListener('DOMContentLoaded', async () => {
+  let siteConfig = null;
+  try {
+    const confRes = await fetch('site-config.json');
+    siteConfig = await confRes.json();
+  } catch {}
+
   // Greeting with displayName fallback
   try {
     const res = await fetch('/api/user');
@@ -6,20 +12,47 @@ window.addEventListener('DOMContentLoaded', async () => {
     const displayName = data.displayName || deriveDisplayName(data.username);
     const firstName = displayName?.split(' ')[0] || 'Utilisateur';
     document.getElementById('user-welcome').textContent = `👤 Bonjour ${capitalize(firstName)}`;
+
+    // If backend provides a preferred city, set it before first weather load
+    const villeSelect = document.getElementById('ville-select');
+    if (villeSelect && data.city) {
+      const found = Array.from(villeSelect.options).some(opt => opt.value === data.city);
+      if (!found) {
+        const opt = document.createElement('option');
+        opt.value = data.city;
+        opt.textContent = data.city;
+        villeSelect.appendChild(opt);
+      }
+      villeSelect.value = data.city;
+    }
+
   } catch (err) {
     document.getElementById('user-welcome').textContent = '👤 Bonjour';
+  }
+
+
+  // Build tools/docs based on site and then wire search
+  const userSite = (typeof data !== 'undefined' && data.site) ? data.site : null;
+  if (siteConfig) {
+    const cfg = siteConfig[userSite] || siteConfig.DEFAULT;
+    if (cfg) {
+      rebuildLinks('.section-group:nth-of-type(2) .card-grid', cfg.tools);
+      rebuildLinks('.section-group:nth-of-type(3) .card-grid', cfg.docs);
+    }
   }
 
   // Client-side search suggestions
   const input = document.getElementById('search-input');
   const results = document.getElementById('search-results');
   if (input && results) {
-    const items = collectSearchItems();
+    let items = collectSearchItems();
     input.addEventListener('input', () => renderSuggestions(items, input.value, results));
     input.addEventListener('keydown', (e) => { if (e.key === 'Escape') { clearSuggestions(results); } });
     document.addEventListener('click', (e) => {
       if (!e.target.closest('.search-bar')) clearSuggestions(results);
     });
+    // Refresh items if links have been rebuilt
+    items = collectSearchItems();
   }
 
   // Lazy-load GLPI iframe to prevent auto-scroll to bottom on page load
@@ -65,7 +98,9 @@ window.addEventListener('DOMContentLoaded', async () => {
   // Init météo (default city if present)
   const villeSelect = document.getElementById('ville-select');
   if (villeSelect) {
-    // Trigger once on load using current selection
+
+
+    // Trigger once on load using selected or backend-provided city
     try { await chargerMeteoDepuisChoix(); } catch { /* noop */ }
   }
 });
@@ -104,6 +139,22 @@ function renderSuggestions(items, query, container) {
 
 function clearSuggestions(container) {
   container.innerHTML = '';
+}
+
+
+function rebuildLinks(selector, links) {
+  const grid = document.querySelector(selector);
+  if (!grid || !Array.isArray(links)) return;
+  grid.innerHTML = '';
+  links.forEach(link => {
+    const a = document.createElement('a');
+    a.className = 'card';
+    a.textContent = link.text;
+    a.href = link.href;
+    if (link.target) a.target = link.target;
+    a.rel = 'noopener noreferrer';
+    grid.appendChild(a);
+  });
 }
 
 // --- Météo ---

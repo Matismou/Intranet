@@ -1,0 +1,34 @@
+{
+  "DEFAULT": {
+    "city": null,
+    "tools": [
+      { "text": "🕒 Kélio", "href": "http://bodet-lyon:8089/", "target": "_blank" },
+      { "text": "🎫 GLPI", "href": "https://memdcglp01.eurocast.local/", "target": "_blank" },
+      { "text": "☁️ OneDrive", "href": "https://m365.cloud.microsoft/onedrive/?acctsw=1", "target": "_blank" },
+      { "text": "ℹ️ Linkedin", "href": "https://www.linkedin.com/company/gmd-eurocast/posts/?feedView=all", "target": "_blank" },
+      { "text": "🦿 Procost", "href": "https://rds.gmd-eurocast.com/RDWeb/Pages/en-US/Default.aspx", "target": "_blank" }
+    ],
+    "docs": [
+      { "text": "📘 Procédures", "href": "Procédure.html", "target": "_blank" },
+      { "text": "📖☎️ Annuaire", "href": "annuaire.html", "target": "_blank" },
+      { "text": "🪪🛜 Cybersécurité", "href": "CyberSécurité.html", "target": "_blank" },
+      { "text": "🆕🌱 Nouveau Collaborateur", "href": "New_collaborateur.html", "target": "_blank" }
+    ]
+  },
+  "ELY": {
+    "city": "Lyon",
+    "tools": [
+      { "text": "🕒 Kélio", "href": "http://bodet-lyon:8089/", "target": "_blank" },
+      { "text": "🎫 GLPI", "href": "https://memdcglp01.eurocast.local/", "target": "_blank" },
+      { "text": "☁️ OneDrive", "href": "https://m365.cloud.microsoft/onedrive/?acctsw=1", "target": "_blank" },
+      { "text": "ℹ️ Linkedin", "href": "https://www.linkedin.com/company/gmd-eurocast/posts/?feedView=all", "target": "_blank" },
+      { "text": "🦿 Procost", "href": "https://rds.gmd-eurocast.com/RDWeb/Pages/en-US/Default.aspx", "target": "_blank" }
+    ],
+    "docs": [
+      { "text": "📘 Procédures", "href": "Procédure.html", "target": "_blank" },
+      { "text": "📖☎️ Annuaire", "href": "annuaire.html", "target": "_blank" },
+      { "text": "🪪🛜 Cybersécurité", "href": "CyberSécurité.html", "target": "_blank" },
+      { "text": "🆕🌱 Nouveau Collaborateur", "href": "New_collaborateur.html", "target": "_blank" }
+    ]
+  }
+}
