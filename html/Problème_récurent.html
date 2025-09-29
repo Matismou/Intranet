@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Problèmes récurrents & Solutions - Intranet Eurocast</title>
+	<link rel="stylesheet" href="style.css" />
+	<style>
+		:root { --faq-radius: 16px; }
+		body { font-family:'Segoe UI',sans-serif; margin:0; background:#f5f7fa; color:#333; }
+		header { background: linear-gradient(135deg,#b31217 0%,#e53935 100%); color:#fff; padding:22px 30px; box-shadow:0 6px 18px rgba(0,0,0,.18); }
+		header .inner { max-width:1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:18px; }
+		header h1 { margin:0; font-size:1.55rem; letter-spacing:.5px; }
+		.breadcrumb { font-size:.78rem; opacity:.85; }
+		main { max-width:1200px; margin:0 auto; padding:44px 24px 70px; }
+		.intro { margin:0 0 36px; font-size:.98rem; max-width:880px; line-height:1.55; color:#4a5568; }
+		.top-bar { display:flex; flex-wrap:wrap; gap:14px; align-items:center; margin:0 0 28px; }
+		.search-box { position:relative; flex:1 1 340px; }
+		.search-box input { width:100%; padding:14px 16px 14px 44px; font-size:.98rem; border:2px solid #e2e8f0; border-radius:14px; background:#fff; box-shadow:0 2px 6px rgba(0,0,0,.04); transition:.2s; }
+		.search-box input:focus { outline:none; border-color:#b31217; box-shadow:0 0 0 3px rgba(229,57,53,.25); }
+		.search-box .icon { position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:1rem; color:#b31217; opacity:.9; }
+		.category-chips { display:flex; gap:10px; flex-wrap:wrap; }
+		.chip { background:#ffffff; border:1px solid #e2e8f0; color:#475569; padding:8px 16px; font-size:.7rem; font-weight:600; border-radius:100px; letter-spacing:.5px; cursor:pointer; transition:.18s; }
+		.chip.active, .chip:hover { background:#b31217; color:#fff; border-color:#b31217; }
+		.layout-toggle { margin-left:auto; display:flex; gap:8px; }
+		.layout-toggle button { background:#ffffff; border:1px solid #d1d5db; width:42px; height:42px; display:flex; align-items:center; justify-content:center; border-radius:12px; cursor:pointer; transition:.18s; }
+		.layout-toggle button.active, .layout-toggle button:hover { background:#b31217; color:#fff; border-color:#b31217; }
+		.faq-grid { display:grid; gap:26px; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); }
+		.faq-grid.list-view { grid-template-columns:1fr; }
+		.faq-item { background:linear-gradient(145deg,#ffffff 0%,#f6f7f9 100%); border:1px solid #e5e7eb; border-left:6px solid #b31217; border-radius: var(--faq-radius); padding:20px 22px 18px; position:relative; display:flex; flex-direction:column; gap:10px; box-shadow:0 6px 18px rgba(0,0,0,.05); transition:.22s; }
+		.faq-item:hover { transform:translateY(-4px); box-shadow:0 14px 28px rgba(179,18,23,.18); }
+		.faq-item[data-critical="true"] { border-left-color:#e53935; }
+		.faq-item__title { margin:0; font-size:1.02rem; color:#b31217; letter-spacing:.3px; display:flex; gap:6px; align-items:flex-start; }
+		.faq-item__meta { font-size:.65rem; letter-spacing:.5px; text-transform:uppercase; color:#64748b; font-weight:600; margin-top:-4px; }
+		.faq-item__desc { margin:4px 0 0; font-size:.82rem; line-height:1.45; color:#374151; }
+		.faq-actions { display:flex; gap:8px; flex-wrap:wrap; margin-top:8px; }
+		.btn { appearance:none; border:none; cursor:pointer; font-family:inherit; font-size:.7rem; font-weight:600; letter-spacing:.5px; border-radius:10px; padding:9px 14px; display:inline-flex; align-items:center; gap:6px; text-decoration:none; transition:.18s; }
+		.btn-primary { background:linear-gradient(135deg,#e53935 0%,#b31217 100%); color:#fff; border:1px solid #b31217; box-shadow:0 4px 12px rgba(179,18,23,.25); }
+		.btn-primary:hover { background:linear-gradient(135deg,#ff5252 0%,#b31217 100%); transform:translateY(-2px); box-shadow:0 8px 20px rgba(179,18,23,.30); }
+		.btn-outline { background:#ffffff; border:1px solid #d1d5db; color:#444; }
+		.btn-outline:hover { background:#f3f4f6; color:#111; }
+		.expand-area { display:none; margin-top:4px; font-size:.8rem; line-height:1.5; background:#ffffff; border:1px solid #e5e7eb; border-radius:12px; padding:16px 18px; box-shadow:0 4px 14px rgba(0,0,0,.06); }
+		.faq-item.open .expand-area { display:block; animation:fadeIn .25s ease; }
+		.status-badge { display:inline-block; padding:4px 8px; font-size:.55rem; font-weight:700; letter-spacing:.5px; border-radius:6px; background:#b31217; color:#fff; box-shadow:0 2px 6px rgba(179,18,23,.3); }
+		.status-badge.ok { background:#16a34a; box-shadow:0 2px 6px rgba(22,163,74,.35); }
+		.status-badge.degraded { background:#d97706; box-shadow:0 2px 6px rgba(217,119,6,.35); }
+		.status-badge.incident { background:#b31217; }
+		.empty { display:none; margin-top:24px; font-size:.85rem; color:#555; }
+		.quick-links { margin:54px 0 10px; }
+		.quick-links h2 { margin:0 0 16px; font-size:1.25rem; color:#b31217; }
+		.quick-grid { display:grid; gap:18px; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); }
+		.quick-card { background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:18px 20px; box-shadow:0 4px 14px rgba(0,0,0,.05); position:relative; display:flex; flex-direction:column; gap:8px; transition:.2s; }
+		.quick-card:hover { transform:translateY(-3px); box-shadow:0 10px 22px rgba(179,18,23,.16); }
+		.quick-card h3 { margin:0; font-size:.95rem; color:#b31217; }
+		.quick-card p { margin:0; font-size:.75rem; color:#475569; line-height:1.4; }
+		footer { margin-top:58px; font-size:.68rem; color:#6b7280; text-align:center; }
+		@keyframes fadeIn { from { opacity:0; transform:translateY(4px);} to { opacity:1; transform:translateY(0);} }
+		@media (max-width:760px){ .layout-toggle { width:100%; justify-content:flex-end; } }
+	</style>
+</head>
+<body>
+	<header>
+		<div class="inner">
+			<h1>🛠️ Problèmes récurrents & solutions</h1>
+			<div class="breadcrumb">Intranet › Support › FAQ</div>
+		</div>
+	</header>
+	<main>
+		<p class="intro">Cette base de connaissances couvre les incidents et demandes les plus fréquents rencontrés par les collaborateurs. Chaque fiche vous guide pas à pas vers une résolution autonome. Si une solution ne fonctionne pas ou si un impact est critique, ouvrez un ticket GLPI ou contactez l’assistance IT.</p>
+
+		<div class="top-bar">
+			<div class="search-box" role="search"><span class="icon">🔎</span><input id="faqSearch" type="text" placeholder="Rechercher (ex: imprimante, VPN, mot de passe...)" autocomplete="off" /></div>
+			<div class="category-chips">
+				<div class="chip active" data-filter="all">TOUS</div>
+				<div class="chip" data-filter="compte">COMPTE</div>
+				<div class="chip" data-filter="reseau">RÉSEAU</div>
+				<div class="chip" data-filter="bureautique">BUREAUTIQUE</div>
+				<div class="chip" data-filter="impression">IMPRESSION</div>
+				<div class="chip" data-filter="securite">SÉCURITÉ</div>
+				<div class="chip" data-filter="vpn">VPN</div>
+			</div>
+			<div class="layout-toggle">
+				<button id="gridBtn" class="active" title="Vue grille" aria-label="Vue grille">⬚</button>
+				<button id="listBtn" title="Vue liste" aria-label="Vue liste">≣</button>
+			</div>
+		</div>
+
+		<div id="faqList" class="faq-grid" aria-live="polite"></div>
+		<div id="emptyState" class="empty">Aucun résultat ne correspond à votre recherche.</div>
+
+		<section class="quick-links">
+			<h2>Raccourcis utiles</h2>
+			<div class="quick-grid">
+				<div class="quick-card"><h3>🔐 Réinitialiser mon mot de passe</h3><p>Accédez au portail d’auto-service ou contactez le support si bloqué.</p></div>
+				<div class="quick-card"><h3>🌐 Accéder au VPN</h3><p>Guide de connexion et prérequis (agent, MFA, réseau externe).</p></div>
+				<div class="quick-card"><h3>🖨 Installer une imprimante</h3><p>Procédure standard + pilotes universels recommandés.</p></div>
+				<div class="quick-card"><h3>🛡 Signaler un e-mail suspect</h3><p>Transférer à it-eurocast@gmd-eurocast.com et ne pas cliquer.</p></div>
+			</div>
+		</section>
+
+		<footer>© Eurocast – Base de connaissances interne. Mise à jour : <span id="lastUpdate"></span>.</footer>
+	</main>
+
+	<script>
+		const data = [
+			{
+				id:'pw-reset',
+				title:'Je ne peux plus me connecter (mot de passe oublié / expiré)',
+				category:'compte',
+				impact:'Utilisateur bloqué',
+				status:'Résolu',
+				statusClass:'ok',
+				critical:true,
+				short:'Compte verrouillé ou mot de passe oublié: procédure de réinitialisation sécurisée.',
+				steps:[
+					'Tenter une reconnexion après 5 minutes (verrouillage temporaire).',
+					'Accéder au portail de réinitialisation (si disponible) et suivre les étapes MFA.',
+					'Si impossible: contacter le support en précisant votre identifiant AD.',
+					'Mettre à jour le mot de passe sur téléphone (mail), session RDS et applications locales.'
+				],
+				prevention:['Activer MFA','Éviter réutilisation de mots de passe','Mettre à jour avant expiration (notification J-5)']
+			},
+			{
+				id:'vpn-down',
+				title:'La connexion VPN échoue (timeout ou credentials)',
+				category:'vpn',
+				impact:'Accès distant impossible',
+				status:'Dégradé',
+				statusClass:'degraded',
+				critical:true,
+				short:'Échec de tunnel sécurisé ou authentification MFA.',
+				steps:[
+					'Vérifier connexion Internet (test ping 8.8.8.8).',
+					'Redémarrer l’agent VPN et relancer.',
+					'Vérifier code MFA reçu (application / SMS).',
+					'Si toujours en échec: ouvrir ticket GLPI avec captures.'
+				],
+				prevention:['Mettre à jour client VPN','Ne pas saturer la bande passante locale','Anticiper connexions critiques']
+			},
+			{
+				id:'printer-missing',
+				title:'Imprimante réseau introuvable',
+				category:'impression',
+				impact:'Impression impossible',
+				status:'En cours',
+				statusClass:'incident',
+				critical:false,
+				short:'Impossible d\'ajouter ou voir une imprimante partagée.',
+				steps:[
+					'Vérifier que le PC est sur le réseau interne (LAN/VPN).',
+					'Saisir \\\\nom_serveur\\imprimante dans Exécuter (Win+R).',
+					'Installer le pilote universel constructeur si demandé.',
+					'Relancer le spouleur: services.msc → Spouleur → Redémarrer.'
+				],
+				prevention:['Nettoyer les files bloquées','Éviter redémarrages forcés lors d’impression','Ne pas supprimer le port TCP/IP']
+			},
+			{
+				id:'wifi-slow',
+				title:'Wifi très lent ou instable',
+				category:'reseau',
+				impact:'Productivité réduite',
+				status:'Résolu',
+				statusClass:'ok',
+				critical:false,
+				short:'Débits instables ou microcoupures sur site.',
+				steps:[
+					'Basculer temporairement sur le réseau filaire si possible.',
+					'Oublier le SSID puis reconnecter.',
+					'Vérifier absence de téléchargements lourds en arrière-plan.',
+					'Si zone précise: signaler localisation exacte au support.'
+				],
+				prevention:['Privilégier Ethernet pour visioconférences','Limiter streaming HD local','Mettre à jour pilotes Wi-Fi']
+			},
+			{
+				id:'outlook-crash',
+				title:'Outlook se fige ou plante au démarrage',
+				category:'bureautique',
+				impact:'Messagerie indisponible',
+				status:'Dégradé',
+				statusClass:'degraded',
+				critical:true,
+				short:'Application figée à l’ouverture avec profil chargé.',
+				steps:[
+					'Lancer en mode sans échec: outlook.exe /safe.',
+					'Désactiver compléments non essentiels.',
+					'Réparer le fichier OST (scanpst.exe).',
+					'Créer un nouveau profil si corruption persistante.'
+				],
+				prevention:['Archiver régulièrement','Éviter boîtes partagées trop volumineuses','Nettoyer cache / index périodiquement']
+			},
+			{
+				id:'phishing-mail',
+				title:'E-mail suspect / possible phishing',
+				category:'securite',
+				impact:'Risque de compromission',
+				status:'Résolu',
+				statusClass:'ok',
+				critical:true,
+				short:'Courriel inattendu contenant lien ou pièce jointe.',
+				steps:[
+					'Ne rien cliquer – ne pas répondre.',
+					'Transférer à it-eurocast@gmd-eurocast.com pour analyse.',
+					'Supprimer seulement après validation support.',
+					'Si clic effectué: prévenir immédiatement + changement mot de passe.'
+				],
+				prevention:['Former les utilisateurs','Activer MFA partout','Signaler les anomalies rapidement']
+			}
+		];
+
+		const listEl = document.getElementById('faqList');
+		const searchEl = document.getElementById('faqSearch');
+		const emptyEl = document.getElementById('emptyState');
+		const chips = Array.from(document.querySelectorAll('.chip'));
+		const gridBtn = document.getElementById('gridBtn');
+		const listBtn = document.getElementById('listBtn');
+		const lastUpdate = document.getElementById('lastUpdate');
+		lastUpdate && (lastUpdate.textContent = new Date().toLocaleDateString('fr-FR'));
+
+		let activeFilter = 'all';
+
+		function buildItem(entry){
+			const wrap = document.createElement('div');
+			wrap.className = 'faq-item';
+			wrap.dataset.category = entry.category;
+			wrap.dataset.keywords = (entry.title + ' ' + entry.short + ' ' + entry.steps.join(' ') + ' ' + entry.prevention.join(' ')).toLowerCase();
+			if(entry.critical) wrap.dataset.critical = 'true';
+			wrap.innerHTML = `
+				<h3 class="faq-item__title">🔧 ${entry.title}</h3>
+				<div class="faq-item__meta">${entry.category.toUpperCase()} · <span class="status-badge ${entry.statusClass}">${entry.status}</span> · Impact: ${entry.impact}</div>
+				<p class="faq-item__desc">${entry.short}</p>
+				<div class="faq-actions">
+					<button class="btn btn-primary" data-expand>Afficher</button>
+					<button class="btn btn-outline" data-copy title="Copier les étapes">Copier</button>
+				</div>
+				<div class="expand-area"><strong>Étapes de résolution :</strong><ol style='margin:8px 0 12px 18px; padding:0; font-size:.78rem;'>${entry.steps.map(s=>`<li style='margin-bottom:4px;'>${s}</li>`).join('')}</ol><strong>Prévention :</strong><ul style='margin:8px 0 0 18px; padding:0; font-size:.75rem;'>${entry.prevention.map(s=>`<li style='margin-bottom:3px;'>${s}</li>`).join('')}</ul></div>`;
+			return wrap;
+		}
+
+		function render(){
+			listEl.innerHTML='';
+			const term = searchEl.value.trim().toLowerCase();
+			let shown = 0;
+			data.forEach(item => {
+				if(activeFilter !== 'all' && item.category !== activeFilter) return;
+				const full = (item.title + ' ' + item.short + ' ' + item.steps.join(' ') + ' ' + item.prevention.join(' ')).toLowerCase();
+				if(term && !full.includes(term)) return;
+				listEl.appendChild(buildItem(item));
+				shown++;
+			});
+			emptyEl.style.display = shown ? 'none' : 'block';
+		}
+
+		searchEl.addEventListener('input', render);
+		chips.forEach(c => c.addEventListener('click', ()=> {
+			chips.forEach(o=>o.classList.remove('active')); c.classList.add('active'); activeFilter = c.dataset.filter; render();
+		}));
+
+		gridBtn.addEventListener('click', ()=> { gridBtn.classList.add('active'); listBtn.classList.remove('active'); listEl.classList.remove('list-view'); });
+		listBtn.addEventListener('click', ()=> { listBtn.classList.add('active'); gridBtn.classList.remove('active'); listEl.classList.add('list-view'); });
+
+		document.body.addEventListener('click', (e)=> {
+			if(e.target.matches('[data-expand]')) {
+				const card = e.target.closest('.faq-item');
+				card.classList.toggle('open');
+				e.target.textContent = card.classList.contains('open') ? 'Masquer' : 'Afficher';
+			}
+			if(e.target.matches('[data-copy]')) {
+				const card = e.target.closest('.faq-item');
+				const steps = Array.from(card.querySelectorAll('.expand-area ol li')).map(li=>'- '+li.textContent).join('\n');
+				navigator.clipboard.writeText(steps).then(()=> {
+					e.target.textContent='Copié!'; setTimeout(()=> e.target.textContent='Copier', 1600);
+				});
+			}
+		});
+
+		render();
+	</script>
+</body>
+</html>
