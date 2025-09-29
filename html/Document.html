@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Documents Utiles - Intranet Eurocast</title>
+	<link rel="stylesheet" href="style.css" />
+	<style>
+		:root {
+			--doc-radius: 14px;
+		}
+		body {
+			font-family: 'Segoe UI', sans-serif;
+			margin: 0;
+			background: #f5f7fa;
+			color: #333;
+		}
+		header {
+			background: linear-gradient(135deg, #b31217 0%, #e53935 100%);
+			color: #fff;
+			padding: 18px 28px;
+			box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+		}
+		header .inner {
+			max-width: 1200px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:18px;
+		}
+		header h1 { margin:0; font-size:1.6rem; letter-spacing:.5px; }
+		.breadcrumb { font-size: .85rem; opacity:.9; }
+		main { max-width:1200px; margin:0 auto; padding:40px 24px 64px; }
+		h2.section-title { margin:0 0 18px; font-size:1.35rem; color:#b31217; letter-spacing:.5px; }
+		.intro { font-size: .98rem; color:#555; line-height:1.55; margin: 0 0 34px; max-width:880px; }
+		.doc-grid { display:grid; gap:26px; grid-template-columns: repeat(auto-fill, minmax(320px,1fr)); }
+		.doc-card { background:#fff; border:1px solid #e5e7eb; border-radius: var(--doc-radius); box-shadow: 0 4px 14px rgba(0,0,0,0.05); display:flex; flex-direction:column; overflow:hidden; position:relative; }
+		.doc-card__header { padding:16px 18px 10px; }
+		.doc-card__title { margin:0 0 4px; font-size:1rem; color:#b31217; font-weight:600; display:flex; align-items:center; gap:6px; }
+		.doc-card__meta { margin:0; font-size:.72rem; letter-spacing:.5px; text-transform:uppercase; color:#6b7280; font-weight:600; }
+		.doc-card__preview { background:#f8f9fb; border-top:1px solid #e5e7eb; border-bottom:1px solid #e5e7eb; aspect-ratio:4/3; position:relative; display:flex; align-items:center; justify-content:center; overflow:hidden; }
+		.doc-card__preview iframe, .doc-card__preview object { width:100%; height:100%; border:0; }
+		.doc-card__body { padding:14px 18px 16px; flex:1; display:flex; flex-direction:column; }
+		.doc-card__desc { margin:0 0 14px; font-size:.85rem; color:#374151; line-height:1.4; flex-grow:1; }
+		.doc-card__actions { display:flex; gap:10px; flex-wrap:wrap; }
+		.btn { appearance:none; border:none; cursor:pointer; font-family:inherit; font-size:.78rem; font-weight:600; letter-spacing:.5px; border-radius:10px; padding:10px 16px; display:inline-flex; align-items:center; gap:6px; text-decoration:none; transition:.18s ease; }
+		.btn-primary { background: linear-gradient(135deg, #e53935 0%, #b31217 100%); color:#fff; box-shadow:0 4px 12px rgba(179,18,23,0.25); border:1px solid #b31217; }
+		.btn-primary:hover { background: linear-gradient(135deg, #ff5252 0%, #b31217 100%); transform:translateY(-2px); box-shadow:0 8px 20px rgba(179,18,23,0.3); }
+		.btn-outline { background:#ffffff; border:1px solid #d1d5db; color:#444; }
+		.btn-outline:hover { background:#f3f4f6; color:#111; }
+		.search-bar { max-width:520px; margin:0 0 34px; position:relative; }
+		.search-bar input { width:100%; padding:14px 18px 14px 42px; font-size:1rem; border-radius:14px; border:2px solid #e2e8f0; background:#fff; box-shadow:0 2px 6px rgba(0,0,0,0.04); transition:.2s; }
+		.search-bar input:focus { outline:none; border-color:#b31217; box-shadow:0 0 0 3px rgba(229,57,53,.25); }
+		.search-bar .icon { position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:1rem; color:#b31217; opacity:.85; }
+		.category-block { margin-bottom:54px; }
+		.empty-state { display:none; margin-top:20px; font-size:.9rem; color:#555; }
+		.filters { display:flex; gap:10px; flex-wrap:wrap; margin: 0 0 22px; }
+		.filter-chip { background:#ffffff; border:1px solid #e2e8f0; color:#475569; padding:8px 14px; font-size:.7rem; border-radius:100px; cursor:pointer; font-weight:600; letter-spacing:.5px; transition:.18s; }
+		.filter-chip.active, .filter-chip:hover { background:#b31217; color:#fff; border-color:#b31217; }
+		.layout-toggle { margin-left:auto; display:flex; gap:8px; }
+		.layout-toggle button { background:#ffffff; border:1px solid #d1d5db; width:40px; height:40px; display:flex; align-items:center; justify-content:center; border-radius:10px; cursor:pointer; transition:.18s; }
+		.layout-toggle button.active, .layout-toggle button:hover { background:#b31217; color:#fff; border-color:#b31217; }
+		.doc-grid.list-view { grid-template-columns: 1fr; }
+		.doc-grid.list-view .doc-card { flex-direction:row; height:180px; }
+		.doc-grid.list-view .doc-card__preview { flex:0 0 260px; aspect-ratio:auto; height:100%; }
+		.doc-grid.list-view .doc-card__body { padding:18px 24px; }
+		footer { margin-top:40px; font-size:.7rem; color:#6b7280; text-align:center; }
+		@media (max-width:760px){ .doc-grid.list-view .doc-card { flex-direction:column; height:auto; } .doc-grid.list-view .doc-card__preview { width:100%; height:200px; } }
+	</style>
+</head>
+<body>
+	<header>
+		<div class="inner">
+			<h1>📁 Documents utiles</h1>
+			<div class="breadcrumb">Intranet &rsaquo; Documents</div>
+		</div>
+	</header>
+	<main>
+		<p class="intro">Retrouvez ici les documents clés mis à disposition des salariés : politiques internes, procédures, formulaires et supports de sensibilisation. Utilisez la recherche ou les filtres pour trouver rapidement ce dont vous avez besoin. Les aperçus intégrés vous permettent de vérifier le contenu avant téléchargement.</p>
+
+		<div class="filters">
+			<div class="filter-chip active" data-filter="all">TOUS</div>
+			<div class="filter-chip" data-filter="procedure">PROCÉDURE</div>
+			<div class="filter-chip" data-filter="securite">SÉCURITÉ</div>
+			<div class="filter-chip" data-filter="rh">RH</div>
+			<div class="filter-chip" data-filter="formulaire">FORMULAIRE</div>
+			<div class="layout-toggle">
+				<button id="gridBtn" class="active" title="Grille" aria-label="Vue grille">⬚</button>
+				<button id="listBtn" title="Liste" aria-label="Vue liste">≣</button>
+			</div>
+		</div>
+
+		<div class="search-bar" role="search">
+			<span class="icon">🔎</span>
+			<input type="text" id="docSearch" placeholder="Rechercher un document (nom, type, description)..." autocomplete="off" />
+		</div>
+
+		<div id="documents" class="doc-grid" aria-live="polite"></div>
+		<div id="emptyState" class="empty-state">Aucun document ne correspond à la recherche.</div>
+
+		<footer>© Eurocast – Espace documentaire interne. Dernière mise à jour automatique: <span id="lastUpdate"></span>.</footer>
+	</main>
+
+	<script>
+		const documentsData = [
+			{
+				id: 'pol-gen-sec',
+				title: 'Politique générale de sécurité',
+				file: 'E_M1_I8_Politique générale de la securité de l\'information.pdf',
+				type: 'securite',
+				meta: 'Sécurité • PDF',
+				desc: 'Règles et orientations globales relatives à la sécurité des systèmes d\'information.',
+				keywords: 'politique sécurité information règles'
+			},
+			{
+				id: 'pol-si',
+				title: 'Politique de sécurité des SI',
+				file: 'E_S5_I9_C_Politique_de_sécurité_des_systèmes_d_information_FR.pdf',
+				type: 'securite',
+				meta: 'Sécurité • PDF',
+				desc: 'Mesures de protection et gouvernance des systèmes d\'information.',
+				keywords: 'sécurité si gouvernance mesures'
+			},
+			{
+				id: 'onboarding',
+				title: 'Guide d\'accueil collaborateur',
+				file: 'Guide_Accueil.pdf',
+				type: 'rh',
+				meta: 'RH • PDF',
+				desc: 'Parcours d\'intégration : outils, accès, bonnes pratiques et interlocuteurs.' ,
+				keywords: 'accueil collaborateur intégration rh'
+			},
+			{
+				id: 'proc-it',
+				title: 'Procédure ouverture de compte IT',
+				file: 'Procedure_Compte_IT.pdf',
+				type: 'procedure',
+				meta: 'Procédure • PDF',
+				desc: 'Étapes normalisées pour la création d\'un compte utilisateur et affectation des accès.' ,
+				keywords: 'procédure compte ouverture accès it'
+			},
+			{
+				id: 'demande-matériel',
+				title: 'Formulaire demande matériel',
+				file: 'Formulaire_Demande_Materiel.pdf',
+				type: 'formulaire',
+				meta: 'Formulaire • PDF',
+				desc: 'Support de demande pour poste, écran, périphériques ou renouvellement.' ,
+				keywords: 'formulaire matériel demande poste écran périphérique'
+			}
+		];
+
+		const container = document.getElementById('documents');
+		const searchInput = document.getElementById('docSearch');
+		const emptyState = document.getElementById('emptyState');
+		const chips = Array.from(document.querySelectorAll('.filter-chip'));
+		const gridBtn = document.getElementById('gridBtn');
+		const listBtn = document.getElementById('listBtn');
+		const lastUpdate = document.getElementById('lastUpdate');
+		lastUpdate.textContent = new Date().toLocaleDateString('fr-FR');
+
+		let activeFilter = 'all';
+
+		function buildCard(doc){
+			const wrap = document.createElement('div');
+			wrap.className = 'doc-card';
+			wrap.dataset.type = doc.type;
+			wrap.dataset.keywords = (doc.title + ' ' + doc.desc + ' ' + doc.keywords).toLowerCase();
+			wrap.innerHTML = `
+				<div class="doc-card__header">
+					<h3 class="doc-card__title">📄 ${doc.title}</h3>
+					<p class="doc-card__meta">${doc.meta}</p>
+				</div>
+				<div class="doc-card__preview" aria-label="Aperçu ${doc.title}">
+					${ doc.file.endsWith('.pdf') ? `<object data="${doc.file}" type="application/pdf"><div style='padding:20px; font-size:.8rem;'>Prévisualisation indisponible.</div></object>` : `<div>Pas d\'aperçu</div>` }
+				</div>
+				<div class="doc-card__body">
+					<p class="doc-card__desc">${doc.desc}</p>
+					<div class="doc-card__actions">
+						<a class="btn btn-primary" href="${doc.file}" target="_blank" rel="noopener" download>Télécharger</a>
+						<button class="btn btn-outline" data-open="${doc.id}">Ouvrir</button>
+					</div>
+				</div>`;
+			return wrap;
+		}
+
+		function render(){
+			container.innerHTML='';
+			const term = searchInput.value.trim().toLowerCase();
+			let shown = 0;
+			documentsData.forEach(doc => {
+				if(activeFilter !== 'all' && doc.type !== activeFilter) return;
+				const full = (doc.title + ' ' + doc.desc + ' ' + doc.keywords).toLowerCase();
+				if(term && !full.includes(term)) return;
+				container.appendChild(buildCard(doc));
+				shown++;
+			});
+			emptyState.style.display = shown ? 'none' : 'block';
+		}
+
+		searchInput.addEventListener('input', render);
+		chips.forEach(c => c.addEventListener('click', () => {
+			chips.forEach(o => o.classList.remove('active'));
+			c.classList.add('active');
+			activeFilter = c.dataset.filter;
+			render();
+		}));
+
+		gridBtn.addEventListener('click', () => {
+			gridBtn.classList.add('active'); listBtn.classList.remove('active'); container.classList.remove('list-view');
+		});
+		listBtn.addEventListener('click', () => {
+			listBtn.classList.add('active'); gridBtn.classList.remove('active'); container.classList.add('list-view');
+		});
+
+		// simple modal preview
+		document.body.addEventListener('click', (e) => {
+			const btn = e.target.closest('[data-open]');
+			if(!btn) return;
+			const id = btn.getAttribute('data-open');
+			const doc = documentsData.find(d => d.id === id);
+			if(!doc) return;
+			openModal(doc);
+		});
+
+		function openModal(doc){
+			let modal = document.getElementById('docModal');
+			if(!modal){
+				modal = document.createElement('div');
+				modal.id = 'docModal';
+				modal.innerHTML = `<div class="modal__backdrop" data-close></div><div class="modal__dialog" role="dialog" aria-modal="true" aria-labelledby="docModalTitle" style="max-width:960px;">
+					<button class="modal__close" data-close aria-label="Fermer">✕</button>
+					<h2 id="docModalTitle" style="margin-top:0; color:#b31217;">Document</h2>
+					<div id="docModalBody"></div>
+				</div>`;
+				Object.assign(modal.style,{position:'fixed', inset:'0', display:'flex', alignItems:'flex-start', justifyContent:'center', padding:'60px 20px', background:'rgba(0,0,0,0.45)', zIndex:'9999'});
+				document.body.appendChild(modal);
+				modal.addEventListener('click', (ev)=>{ if(ev.target.hasAttribute('data-close')) closeModal(); });
+			}
+			document.getElementById('docModalBody').innerHTML = `
+				<p style="font-size:.85rem; color:#555; margin:0 0 12px;">${doc.desc}</p>
+				${doc.file.endsWith('.pdf') ? `<object data="${doc.file}" type="application/pdf" width="100%" height="600"><p>Aperçu PDF indisponible.</p></object>` : '<div>Aperçu non disponible.</div>'}
+				<div style="margin-top:16px; display:flex; gap:10px;">
+					<a class="btn btn-primary" href="${doc.file}" download>Télécharger</a>
+					<a class="btn btn-outline" href="${doc.file}" target="_blank" rel="noopener">Ouvrir dans un nouvel onglet</a>
+				</div>`;
+			modal.style.display='flex';
+		}
+		function closeModal(){ const m=document.getElementById('docModal'); if(m) m.style.display='none'; }
+		document.addEventListener('keydown', (e)=>{ if(e.key==='Escape') closeModal(); });
+
+		render();
+	</script>
+</body>
+</html>
