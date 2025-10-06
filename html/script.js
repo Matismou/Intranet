@@ -1,9 +1,9 @@
 window.addEventListener('DOMContentLoaded', async () => {
-  let siteConfig = null;
-  try {
-    const confRes = await fetch('site-config.json');
-    siteConfig = await confRes.json();
-  } catch {}
+  // let siteConfig = null;
+  // try {
+  //   const confRes = await fetch('site-config.json');
+  //   siteConfig = await confRes.json();
+  // } catch {}
 
   // Greeting with displayName fallback
   try {
@@ -32,14 +32,14 @@ window.addEventListener('DOMContentLoaded', async () => {
 
 
   // Build tools/docs based on site and then wire search
-  const userSite = (typeof data !== 'undefined' && data.site) ? data.site : null;
-  if (siteConfig) {
-    const cfg = siteConfig[userSite] || siteConfig.DEFAULT;
-    if (cfg) {
-      rebuildLinks('.section-group:nth-of-type(2) .card-grid', cfg.tools);
-      rebuildLinks('.section-group:nth-of-type(3) .card-grid', cfg.docs);
-    }
-  }
+  // const userSite = (typeof data !== 'undefined' && data.site) ? data.site : null;
+  // if (siteConfig) {
+  //   const cfg = siteConfig[userSite] || siteConfig.DEFAULT;
+  //   if (cfg) {
+  //     rebuildLinks('.section-group:nth-of-type(2) .card-grid', cfg.tools);
+  //     rebuildLinks('.section-group:nth-of-type(3) .card-grid', cfg.docs);
+  //   }
+  // }
 
   // Client-side search suggestions
   const input = document.getElementById('search-input');
