@@ -143,6 +143,42 @@
 				meta: 'Formulaire • PDF',
 				desc: 'Support de demande pour poste, écran, périphériques ou renouvellement.' ,
 				keywords: 'formulaire matériel demande poste écran périphérique'
+			},
+			{
+				id: 'reset-mdp',
+				title: 'Réinitialisation du mot de passe utilisateur',
+				file: 'Reset_MDP.pdf',
+				type: 'procedure',
+				meta: 'Procédure • PDF',
+				desc: 'Procédure d’auto-service ou via support pour renouveler un mot de passe expiré ou oublié.' ,
+				keywords: 'mot de passe reset réinitialisation expiration verrouillage'
+			},
+			{
+				id: 'guide-vpn',
+				title: 'Guide de connexion VPN sécurisé',
+				file: 'Guide_VPN.pdf',
+				type: 'procedure',
+				meta: 'Procédure • PDF',
+				desc: 'Étapes détaillées pour établir une connexion distante sécurisée (client, MFA, tests).' ,
+				keywords: 'vpn connexion distante client mfa guide'
+			},
+			{
+				id: 'proc-imprimante',
+				title: 'Procédure installation imprimante réseau',
+				file: 'Proc_Imprimante.pdf',
+				type: 'procedure',
+				meta: 'Procédure • PDF',
+				desc: 'Ajout d’une imprimante partagée, pilotes universels et résolution des erreurs courantes.' ,
+				keywords: 'imprimante réseau pilote installation port'
+			},
+			{
+				id: 'signalement-phishing',
+				title: 'Signalement d’e-mail suspect / phishing',
+				file: 'Signalement_Phishing.pdf',
+				type: 'securite',
+				meta: 'Sécurité • PDF',
+				desc: 'Bonnes pratiques et chaîne de remontée pour e-mails suspects ou malveillants.' ,
+				keywords: 'phishing mail suspect signalement sécurité'
 			}
 		];
 
@@ -162,6 +198,7 @@
 			wrap.className = 'doc-card';
 			wrap.dataset.type = doc.type;
 			wrap.dataset.keywords = (doc.title + ' ' + doc.desc + ' ' + doc.keywords).toLowerCase();
+			wrap.id = doc.id; // ancre pour focus
 			wrap.innerHTML = `
 				<div class="doc-card__header">
 					<h3 class="doc-card__title">📄 ${doc.title}</h3>
@@ -200,6 +237,27 @@
 			c.classList.add('active');
 			activeFilter = c.dataset.filter;
 			render();
+
+			// Gérer le paramètre focus=ID pour mettre en avant un document depuis les raccourcis FAQ
+			const params = new URLSearchParams(window.location.search);
+			const focusId = params.get('focus');
+			if(focusId){
+				// attendre un frame pour que les cartes soient dans le DOM
+				requestAnimationFrame(()=> {
+					const target = document.getElementById(focusId);
+					if(target){
+						target.scrollIntoView({behavior:'smooth', block:'start'});
+						target.style.outline='3px solid #e53935';
+						target.style.boxShadow='0 0 0 4px rgba(229,57,53,0.25), 0 6px 16px rgba(0,0,0,0.15)';
+						target.animate([
+							{transform:'scale(1)', filter:'brightness(1)'},
+							{transform:'scale(1.02)', filter:'brightness(1.05)'},
+							{transform:'scale(1)', filter:'brightness(1)'}
+						], {duration:900, easing:'ease-out'});
+						setTimeout(()=> { target.style.outline=''; }, 3200);
+					}
+				});
+			}
 		}));
 
 		gridBtn.addEventListener('click', () => {

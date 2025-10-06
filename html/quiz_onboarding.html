@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quiz Onboarding - Eurocast</title>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root {
+      --c-primary:#b31217;
+      --c-primary-alt:#e53935;
+      --c-accent:#ff5252;
+      --c-bg:#f5f7fa;
+      --c-surface:#ffffff;
+      --c-border:#e2e6eb;
+      --c-text:#333;
+      --c-text-light:#56606d;
+      --radius:18px;
+      --gradient:linear-gradient(135deg,var(--c-primary-alt),var(--c-primary));
+    }
+    body {margin:0;font-family:'Segoe UI',system-ui,sans-serif;background:var(--c-bg);color:var(--c-text);}    
+    header {background:var(--gradient);color:#fff;padding:24px 30px;box-shadow:0 8px 24px rgba(0,0,0,.18);}  
+    header .inner {max-width:1100px;margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px;}
+    header h1 {margin:0;font-size:1.7rem;letter-spacing:.5px;}
+    main {max-width:1100px;margin:0 auto;padding:40px 20px 120px;}
+
+    .quiz-intro {background:var(--c-surface);border:1px solid var(--c-border);padding:26px 30px;border-radius:20px;box-shadow:0 4px 14px rgba(0,0,0,.05);margin-bottom:36px;}
+    .quiz-intro h2 {margin:0 0 10px;font-size:1.35rem;color:var(--c-primary);}  
+    .quiz-intro p {margin:0 0 10px;font-size:.9rem;line-height:1.5;color:var(--c-text-light);}  
+
+    #quizContainer {background:var(--c-surface);border:1px solid var(--c-border);border-radius:24px;padding:34px 38px;box-shadow:0 4px 18px rgba(0,0,0,.06);position:relative;}
+    #questionHeader {display:flex;justify-content:space-between;align-items:center;gap:20px;flex-wrap:wrap;margin-bottom:18px;}
+    #questionHeader h2 {margin:0;font-size:1.15rem;color:var(--c-primary);}  
+    #progressOuter {flex:1;height:10px;background:#eceff2;border-radius:40px;overflow:hidden;position:relative;}
+    #progressInner {position:absolute;inset:0;width:0%;background:var(--gradient);transition:width .45s ease;}
+
+    .answers {display:flex;flex-direction:column;gap:12px;margin:20px 0 10px;}
+    .answer-btn {text-align:left;background:#fff;border:1px solid #d9dde2;padding:14px 16px;font-size:.85rem;line-height:1.35;border-radius:12px;cursor:pointer;font-weight:600;letter-spacing:.3px;display:flex;gap:10px;align-items:flex-start;position:relative;transition:.2s;}
+    .answer-btn:hover {background:#f9fafb;border-color:#cdd2d8;}
+    .answer-btn:focus-visible {outline:3px solid #b31217;outline-offset:2px;}
+  /* Mode sans correction immédiate */
+  .answer-btn.active {border-color:var(--c-primary);background:#fff8f8;box-shadow:0 0 0 2px rgba(179,18,23,.18);} 
+
+    .nav-actions {display:flex;justify-content:space-between;align-items:center;margin-top:24px;gap:14px;flex-wrap:wrap;}
+    .btn {appearance:none;border:none;cursor:pointer;font-family:inherit;font-weight:600;letter-spacing:.5px;font-size:.78rem;display:inline-flex;align-items:center;gap:8px;border-radius:12px;padding:13px 18px;transition:.2s;}
+    .btn-primary {background:var(--gradient);color:#fff;box-shadow:0 4px 14px rgba(179,18,23,.25);border:1px solid #b31217;}
+    .btn-primary:hover {filter:brightness(1.06);transform:translateY(-2px);}  
+    .btn-secondary {background:#ffffff;border:1px solid #d4d9de;color:#374151;}
+    .btn-secondary:hover {background:#f3f5f7;}  
+
+    .badge {display:inline-block;background:#b31217;color:#fff;font-size:.6rem;font-weight:700;padding:4px 8px;border-radius:6px;letter-spacing:.5px;}
+  .timer {font-size:.7rem;font-weight:700;letter-spacing:.5px;background:#fff;border:1px solid #dcdfe3;padding:6px 10px;border-radius:40px;display:inline-flex;align-items:center;gap:6px;}
+  .timer.warning {background:#fff4e5;border-color:#f7b14b;color:#9a5a00;}
+  .timer.danger {background:#ffe9e9;border-color:#e53935;color:#b31217;animation:pulseTime 1s infinite alternate;}
+  @keyframes pulseTime {from {transform:scale(1);} to {transform:scale(1.07);} }
+
+    #feedback {margin-top:14px;font-size:.78rem;font-weight:600;letter-spacing:.3px;}
+    #feedback span {padding:4px 8px;border-radius:6px;}
+    #feedback .good {background:#22a354;color:#fff;}  
+    #feedback .bad {background:#e53935;color:#fff;}
+
+    /* Certificat */
+    #certificateModal {display:none;position:fixed;inset:0;z-index:9999;align-items:flex-start;justify-content:center;padding:60px 20px;background:rgba(0,0,0,.5);}  
+    #certificateModal.active {display:flex;}
+    .cert-dialog {background:#fff;max-width:780px;width:100%;border-radius:28px;padding:40px 46px;box-shadow:0 20px 60px rgba(0,0,0,.25);position:relative;}
+    .cert-dialog h2 {margin:0 0 12px;font-size:1.6rem;color:var(--c-primary);}  
+    .cert-dialog p {margin:0 0 18px;font-size:.9rem;line-height:1.5;}
+    .cert-body {border:2px dashed #dcdfe3;border-radius:16px;padding:26px 28px;margin:18px 0;background:linear-gradient(135deg,#ffffff,#fafbfc);}  
+    .cert-title {font-size:1.3rem;font-weight:700;margin:0 0 6px;color:#b31217;}  
+    .cert-meta {font-size:.7rem;letter-spacing:.5px;color:#5a626d;margin-bottom:14px;}
+    .cert-emblem {position:absolute;right:40px;top:46px;font-size:3.2rem;opacity:.12;}
+  .close-cert {position:absolute;top:14px;right:14px;background:transparent;border:none;font-size:1.3rem;cursor:pointer;z-index:20;line-height:1;}
+  .close-cert:focus-visible {outline:3px solid var(--c-primary);border-radius:8px;}
+
+    .download-btn {background:var(--gradient);color:#fff;border:1px solid #b31217;padding:12px 18px;display:inline-flex;align-items:center;gap:8px;border-radius:14px;font-weight:600;letter-spacing:.5px;cursor:pointer;box-shadow:0 4px 14px rgba(179,18,23,.25);}
+    .download-btn:hover {filter:brightness(1.06);transform:translateY(-2px);}  
+
+    footer {margin-top:80px;font-size:.6rem;text-align:center;color:#6c7680;}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="inner"><h1>Quiz Final Onboarding</h1><div class="badge">Certification</div></div>
+  </header>
+  <main>
+    <div class="quiz-intro">
+      <h2>🎓 Evaluation finale</h2>
+      <p>Répondez aux questions pour valider votre compréhension des thèmes: sécurité, GLPI, matériel, données, usage acceptable, support.</p>
+      <p>Score requis: <strong>70%</strong>. Une fois réussi, vous pourrez générer et télécharger votre certificat.</p>
+    </div>
+
+    <div id="quizContainer" aria-live="polite">
+      <div id="questionHeader">
+        <h2 id="questionTitle">Question</h2>
+        <div id="progressOuter"><div id="progressInner"></div></div>
+        <div class="timer" id="timer" title="Chrono">⏱ <span id="time">00:00</span></div>
+      </div>
+      <div id="questionText" style="font-size:.92rem;line-height:1.5;color:#374151;"></div>
+      <div class="answers" id="answers"></div>
+  <div id="feedback" style="min-height:0"></div>
+      <div class="nav-actions">
+        <button class="btn btn-secondary" id="prevBtn" disabled>◀ Précédent</button>
+        <div style="flex:1"></div>
+        <button class="btn btn-primary" id="nextBtn" disabled>Valider ▶</button>
+      </div>
+    </div>
+
+    <footer>© Eurocast – Quiz d'intégration interne.</footer>
+  </main>
+
+  <div id="certificateModal" role="dialog" aria-modal="true" aria-labelledby="certTitle">
+    <div class="cert-dialog">
+      <button class="close-cert" id="closeCert" aria-label="Fermer">✕</button>
+      <div class="cert-emblem">🎓</div>
+      <h2 id="certTitle">Certification d'Intégration</h2>
+      <p>Félicitations ! Vous avez validé le parcours d'intégration avec succès.</p>
+      <div class="cert-body" id="certBody"></div>
+      <button class="download-btn" id="downloadCert">⬇ Télécharger le certificat (PDF)</button>
+    </div>
+  </div>
+
+  <script>
+    // Banque de questions
+  const baseQuestions = [
+      { q:"Pourquoi le MFA est-il essentiel?", answers:["Pour faire joli","Pour bloquer l'usurpation d'identifiants","Pour accélérer le PC"], correct:1, explain:"Le MFA ajoute un second facteur réduisant fortement l'exploitation d'un mot de passe compromis." },
+      { q:"Composants d'un bon ticket GLPI?", answers:["Salut urgent stp","Description structurée + contexte + capture","Uniquement une capture"], correct:1, explain:"Un ticket exploitable contient contexte, action faite, résultat attendu et si possible une capture." },
+      { q:"Action en cas de mail suspect?", answers:["Cliquer pour vérifier si le lien marche","Transférer au support sécurité sans interagir","Répondre pour demander si c'est normal"], correct:1, explain:"Ne jamais cliquer, transférer immédiatement pour analyse." },
+      { q:"Stockage recommandé pour documents internes confidentiels?", answers:["Clé USB perso chiffrée peut-être","OneDrive / partage sécurisé autorisé","Dossier local C: non sauvegardé"], correct:1, explain:"Seul un espace approuvé centralisé garantit sauvegarde et contrôle d'accès." },
+      { q:"En déplacement avec le PC portable: meilleure pratique?", answers:["Le laisser vite fait dans la voiture, caché sous un blouson","Le garder physiquement avec soi ou sous surveillance","Le confier à un ami pour alléger votre sac"], correct:1, explain:"Le vol opportuniste est très rapide, toujours garder l'équipement sous contrôle." },
+      { q:"Mot de passe oublié: que faire?", answers:["Demander celui d'un collègue temporairement","Réinitialiser via procédure officielle","Créer un compte perso provisoire"], correct:1, explain:"Seule la procédure de réinitialisation maintient la traçabilité et la sécurité." },
+      { q:"But principal de la checklist finale?", answers:["Remplacer la supervision IT","Valider l'autonomie de base et la complétude des accès","Ajouter une formalité bureaucratique inutile"], correct:1, explain:"Elle confirme que les prérequis d'autonomie sont remplis." },
+      { q:"Utilisation personnelle du matériel:", answers:["Illimitée tant que personne ne voit","Raisonnable, sans risque ni impact professionnel","Strictement interdite même hors temps de travail"], correct:1, explain:"Tolérée si pas de risque sécurité ni baisse de productivité." },
+      { q:"Quel signal est le PLUS suspect dans un mail?", answers:["Formule de politesse correcte","Demande d'urgence + lien vers domaine légèrement altéré","Logo haute qualité"], correct:1, explain:"Combinaison urgence + domaine altéré = fort indicateur de phishing." },
+      { q:"Avant d'escalader un incident critique:", answers:["Vérifier impact réel / production et réunir faits","Escalader tout de suite sans contexte","Attendre confirmation officieuse"], correct:0, explain:"Évaluer et qualifier avec faits avant escalade améliore la réponse." },
+      { q:"Choix le PLUS sûr pour partager un fichier interne sensible:", answers:["Pièce jointe mail externe non chiffrée","Lien OneDrive avec partage restreint","Upload sur un site gratuit d'hébergement"], correct:1, explain:"Partage restreint OneDrive = contrôle et révocation possible." },
+  { q:"Quel scénario illustre une tentative de social engineering ?", answers:["Un faux 'technicien' vous appelle pour vous faire dicter ou valider un code MFA","Un collègue vous dit bonjour en open-space","Une invitation de réunion interne prévue"], correct:0, explain:"Le social engineering cherche à obtenir une action ou information sensible (ex: code MFA) via une apparence légitime et un prétexte crédible." },
+      { q:"Bon mot de passe selon politique (12+):", answers:["P@ssw0rd2024","Equation!Arbre!Verre!12","123456789012"], correct:1, explain:"Phrase complexe multi-mots + symboles = entropie supérieure." },
+      { q:"Réaction correcte après réception d'un SMS inattendu sur authentification:", answers:["Ignorer et le donner si on appelle","Le signaler si non initié et vérifier l'activité","Répondre STOP avec son identifiant"], correct:1, explain:"Un code non sollicité peut signifier tentative de connexion frauduleuse." },
+      { q:"Poste trouvé déjà connecté sans surveillance:", answers:["Consulter rapidement des mails pour aider","Verrouiller immédiatement et informer si récurrent","Changer le fond d'écran pour faire une blague"], correct:1, explain:"Sécuriser immédiatement avant abus potentiel." }
+    ];
+
+    let index=0; let selected=null; let started=Date.now();
+    let finished=false; let timeExpired=false;
+    // Shuffle util
+    function shuffle(arr){ for(let i=arr.length-1;i>0;i--){ const j=Math.floor(Math.random()* (i+1)); [arr[i],arr[j]]=[arr[j],arr[i]];} return arr; }
+    // Build quiz questions with shuffled order and shuffled answers
+    const questions = shuffle(baseQuestions.slice()).map(q=>{
+      const answers = q.answers.map((a,i)=>({text:a, correct:i===q.correct}));
+      shuffle(answers);
+      return { q: q.q, answers, explain:q.explain };
+    });
+    let answerSelections = new Array(questions.length).fill(null); // stores index chosen
+
+    const qTitle=document.getElementById('questionTitle');
+    const qText=document.getElementById('questionText');
+    const answersEl=document.getElementById('answers');
+    const nextBtn=document.getElementById('nextBtn');
+    const prevBtn=document.getElementById('prevBtn');
+  const feedback=document.getElementById('feedback'); // non utilisé désormais (score seulement à la fin)
+    const progressInner=document.getElementById('progressInner');
+
+    const TOTAL_TIME_MS = 15*60*1000; // 15 minutes
+    const endTime = started + TOTAL_TIME_MS;
+    function formatCountdown(ms){ if(ms<0) ms=0; const s=Math.floor(ms/1000); const m=Math.floor(s/60); const rs=s%60; return `${String(m).padStart(2,'0')}:${String(rs).padStart(2,'0')}`; }
+    const timerEl = document.getElementById('timer');
+    const timeSpan = document.getElementById('time');
+    const tick = ()=>{
+      if(finished) return; // stop updates once finished
+      const remaining = endTime - Date.now();
+      timeSpan.textContent = formatCountdown(remaining);
+      if(remaining <= 0){ timeExpired=true; finish(); return; }
+      const mins = remaining / 60000;
+      timerEl.classList.toggle('danger', mins <= 1.5);
+      timerEl.classList.toggle('warning', mins <= 5 && mins > 1.5);
+    };
+    tick();
+    const timerInterval = setInterval(tick,1000);
+
+    function loadQuestion(){
+      const q=questions[index];
+      qTitle.textContent=`Question ${index+1}/${questions.length}`;
+      qText.textContent=q.q;
+      answersEl.innerHTML='';
+      selected = answerSelections[index];
+      feedback.innerHTML='';
+      q.answers.forEach((ansObj,i)=>{
+        const btn=document.createElement('button');
+        btn.className='answer-btn';
+        btn.innerHTML=`<span style='flex:1;'>${ansObj.text}</span>`;
+        btn.addEventListener('click',()=> selectAnswer(i, btn));
+        if(selected === i){ btn.classList.add('active'); }
+        answersEl.appendChild(btn);
+      });
+      prevBtn.disabled = index===0;
+      nextBtn.disabled = (selected===null);
+      nextBtn.textContent = (index === questions.length-1) ? 'Terminer ▶' : (selected!==null ? 'Suivant ▶' : 'Valider ▶');
+      progressInner.style.width=(index/questions.length*100)+'%';
+    }
+
+    function selectAnswer(i, btn){
+      selected=i; answerSelections[index]=i; answersEl.querySelectorAll('.answer-btn').forEach(b=>{b.classList.remove('active'); b.style.borderColor='';}); btn.classList.add('active'); nextBtn.disabled=false; nextBtn.textContent = (index === questions.length-1) ? 'Terminer ▶' : 'Suivant ▶';
+    }
+
+    nextBtn.addEventListener('click',()=>{
+      if(finished) return;
+      if(selected===null) return; // ne pas avancer sans choix
+      if(index < questions.length-1){ index++; loadQuestion(); }
+      else { finish(); }
+    });
+
+    prevBtn.addEventListener('click',()=>{
+      if(index>0){ index--; loadQuestion(); }
+    });
+
+    function finish(){
+      if(finished) return; // idempotent
+      finished=true;
+      progressInner.style.width='100%';
+      clearInterval(timerInterval);
+      if(answerSelections.length !== questions.length){
+        const old = answerSelections.slice();
+        answerSelections = new Array(questions.length).fill(null);
+        for(let i=0;i<Math.min(old.length,questions.length);i++) answerSelections[i]=old[i];
+      }
+      const score = answerSelections.reduce((acc, val, i)=> {
+        if(val===null) return acc; // unanswered
+        const q = questions[i];
+        return q.answers[val].correct ? acc+1 : acc;
+      }, 0);
+      const percent = Math.round(score/questions.length*100);
+      openCertificate(percent, score);
+      // disable navigation
+      nextBtn.disabled=true; prevBtn.disabled=true;
+    }
+
+    function openCertificate(pct, rawScore){
+      const modal=document.getElementById('certificateModal');
+      const body=document.getElementById('certBody');
+      const pass = pct>=70;
+      const remainingDisplay = timeExpired ? 'Temps écoulé' : `Temps utilisé: ${formatUsedTime()}`;
+      body.innerHTML = `
+        <div class='cert-title'>${pass? 'Certificat de Validation':'Attestation de Participation'}</div>
+        <div class='cert-meta'>Score: ${pct}% (${rawScore}/${questions.length}) • ${remainingDisplay}</div>
+        ${timeExpired? '<p style="color:#b31217;font-weight:600;">Fin automatique : limite de temps atteinte (15 min).</p>':''}
+        <p>Ce document atteste que <strong>${getUserName()}</strong> a ${pass? 'réussi':'complété'} le quiz d'intégration de base portant sur la sécurité, l'utilisation des outils, la gestion du matériel et les bonnes pratiques internes.</p>
+        <p style='font-size:.7rem;color:#555;'>Référence interne: ONB-${Date.now()}</p>`;
+      modal.classList.add('active');
+    }
+
+    function formatUsedTime(){
+      const usedMs = Date.now() - started;
+      const s=Math.floor(usedMs/1000); const m=Math.floor(s/60); const rs=s%60; return `${String(m).padStart(2,'0')}:${String(rs).padStart(2,'0')}`;
+    }
+
+    function getUserName(){
+      const stored = localStorage.getItem('onboarding_username');
+      if(stored) return stored;
+      const name = prompt('Entrez votre Nom Prénom pour le certificat:','');
+      if(name) localStorage.setItem('onboarding_username', name);
+      return name || 'Utilisateur';
+    }
+
+    document.getElementById('closeCert').addEventListener('click',()=>{
+      document.getElementById('certificateModal').classList.remove('active');
+    });
+
+    document.getElementById('downloadCert').addEventListener('click',()=>{
+      const el = document.querySelector('.cert-dialog');
+      const w = window.open('', 'PRINT', 'width=900,height=900');
+      w.document.write('<html><head><title>Certificat</title><style>body{font-family:Segoe UI, sans-serif;padding:40px;background:#f5f7fa;} .cert{background:#fff;border:2px solid #b31217;border-radius:20px;padding:40px;box-shadow:0 6px 20px rgba(0,0,0,.15);} h1{margin-top:0;color:#b31217;} .meta{font-size:.7rem;color:#555;margin-bottom:14px;} </style></head><body><div class="cert">'+el.querySelector('#certBody').innerHTML+'</div></body></html>');
+      w.document.close(); w.focus(); w.print(); w.close();
+    });
+
+    loadQuestion();
+  </script>
+</body>
+</html>

@@ -27,8 +27,9 @@
 		.layout-toggle button.active, .layout-toggle button:hover { background:#b31217; color:#fff; border-color:#b31217; }
 		.faq-grid { display:grid; gap:26px; grid-template-columns:repeat(auto-fill,minmax(340px,1fr)); }
 		.faq-grid.list-view { grid-template-columns:1fr; }
-		.faq-item { background:linear-gradient(145deg,#ffffff 0%,#f6f7f9 100%); border:1px solid #e5e7eb; border-left:6px solid #b31217; border-radius: var(--faq-radius); padding:20px 22px 18px; position:relative; display:flex; flex-direction:column; gap:10px; box-shadow:0 6px 18px rgba(0,0,0,.05); transition:.22s; }
-		.faq-item:hover { transform:translateY(-4px); box-shadow:0 14px 28px rgba(179,18,23,.18); }
+		.faq-item { background:#ffffff; border:1px solid #e4e7eb; border-left:5px solid #b31217; border-radius: 16px; padding:18px 20px 16px; position:relative; display:flex; flex-direction:column; gap:8px; box-shadow:0 2px 6px rgba(0,0,0,.04); transition:background .25s ease, box-shadow .25s ease, transform .18s ease; }
+		.faq-item:hover { background:linear-gradient(135deg,#ffffff 0%,#fafbfc 100%); box-shadow:0 4px 14px rgba(0,0,0,.08); transform:translateY(-2px); }
+		.faq-item.open { background:linear-gradient(135deg,#fff 0%,#f7f9fb 100%); box-shadow:0 6px 20px rgba(0,0,0,.10); }
 		.faq-item[data-critical="true"] { border-left-color:#e53935; }
 		.faq-item__title { margin:0; font-size:1.02rem; color:#b31217; letter-spacing:.3px; display:flex; gap:6px; align-items:flex-start; }
 		.faq-item__meta { font-size:.65rem; letter-spacing:.5px; text-transform:uppercase; color:#64748b; font-weight:600; margin-top:-4px; }
@@ -49,7 +50,18 @@
 		.quick-links { margin:54px 0 10px; }
 		.quick-links h2 { margin:0 0 16px; font-size:1.25rem; color:#b31217; }
 		.quick-grid { display:grid; gap:18px; grid-template-columns:repeat(auto-fill,minmax(240px,1fr)); }
-		.quick-card { background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:18px 20px; box-shadow:0 4px 14px rgba(0,0,0,.05); position:relative; display:flex; flex-direction:column; gap:8px; transition:.2s; }
+		.quick-card { background:#fff; border:1px solid #e5e7eb; border-radius:16px; padding:18px 20px; box-shadow:0 2px 8px rgba(0,0,0,.04); position:relative; display:flex; flex-direction:column; gap:8px; transition:transform .2s ease, box-shadow .25s ease, border-color .25s ease; text-decoration:none; color:inherit; }
+		.quick-card:hover { transform:translateY(-3px); box-shadow:0 8px 18px rgba(0,0,0,.08); border-color:#d9dde2; }
+		.quick-card:hover h3, .quick-card:hover p { text-decoration:none; }
+		.quick-card:focus-visible { outline:3px solid #b31217; outline-offset:3px; }
+
+		/* Expansion FAQ plus douce (pas de prise de toute la grille) */
+		.faq-item .expand-area { max-height:0; overflow:hidden; opacity:0; transition:max-height .38s ease, opacity .3s ease; }
+		.faq-item.open .expand-area { max-height:520px; opacity:1; }
+		/* Indicateur flèche */
+		.faq-item__title { position:relative; padding-right:26px; }
+		.faq-item__title::after { content:""; position:absolute; right:2px; top:6px; width:10px; height:10px; border-right:2px solid #b31217; border-bottom:2px solid #b31217; transform:rotate(45deg) translateY(-2px); transition:.25s ease; opacity:.7; }
+		.faq-item.open .faq-item__title::after { transform:rotate(225deg) translateY(2px); opacity:1; }
 		.quick-card:hover { transform:translateY(-3px); box-shadow:0 10px 22px rgba(179,18,23,.16); }
 		.quick-card h3 { margin:0; font-size:.95rem; color:#b31217; }
 		.quick-card p { margin:0; font-size:.75rem; color:#475569; line-height:1.4; }
@@ -91,10 +103,22 @@
 		<section class="quick-links">
 			<h2>Raccourcis utiles</h2>
 			<div class="quick-grid">
-				<div class="quick-card"><h3>🔐 Réinitialiser mon mot de passe</h3><p>Accédez au portail d’auto-service ou contactez le support si bloqué.</p></div>
-				<div class="quick-card"><h3>🌐 Accéder au VPN</h3><p>Guide de connexion et prérequis (agent, MFA, réseau externe).</p></div>
-				<div class="quick-card"><h3>🖨 Installer une imprimante</h3><p>Procédure standard + pilotes universels recommandés.</p></div>
-				<div class="quick-card"><h3>🛡 Signaler un e-mail suspect</h3><p>Transférer à it-eurocast@gmd-eurocast.com et ne pas cliquer.</p></div>
+				<a href="Document.html?focus=reset-mdp" class="quick-card" title="Ouvrir le guide de réinitialisation">
+					<h3>🔐 Réinitialiser mon mot de passe</h3>
+					<p>Portail / procédure de renouvellement sécurisé (MFA).</p>
+				</a>
+				<a href="Document.html?focus=guide-vpn" class="quick-card" title="Guide VPN">
+					<h3>🌐 Accéder au VPN</h3>
+					<p>Pré-requis client, MFA et étapes de connexion.</p>
+				</a>
+				<a href="Document.html?focus=proc-imprimante" class="quick-card" title="Procédure installation imprimante">
+					<h3>🖨 Installer une imprimante</h3>
+					<p>Ajout réseau + pilotes universels recommandés.</p>
+				</a>
+				<a href="Document.html?focus=signalement-phishing" class="quick-card" title="Signaler un phishing">
+					<h3>🛡 Signaler un e-mail suspect</h3>
+					<p>Transférer à it-eurocast@gmd-eurocast.com sans cliquer.</p>
+				</a>
 			</div>
 		</section>
 
@@ -138,21 +162,23 @@
 				prevention:['Mettre à jour client VPN','Ne pas saturer la bande passante locale','Anticiper connexions critiques']
 			},
 			{
-				id:'printer-missing',
-				title:'Imprimante réseau introuvable',
-				category:'impression',
-				impact:'Impression impossible',
-				status:'En cours',
-				statusClass:'incident',
-				critical:false,
-				short:'Impossible d\'ajouter ou voir une imprimante partagée.',
+				id:'rds-connect',
+				title:'Je ne peux pas me connecter à RDS',
+				category:'bureautique',
+				impact:'Accès applicatif distant indisponible',
+				status:'Résolu',
+				statusClass:'ok',
+				critical:true,
+				short:'Échec de session Remote Desktop (RDS) : refus, écran noir ou message d\'erreur.',
 				steps:[
-					'Vérifier que le PC est sur le réseau interne (LAN/VPN).',
-					'Saisir \\\\nom_serveur\\imprimante dans Exécuter (Win+R).',
-					'Installer le pilote universel constructeur si demandé.',
-					'Relancer le spouleur: services.msc → Spouleur → Redémarrer.'
+					'Verifier réseau interne ou VPN actif (test ping ou accès intranet).',
+					'Saisir correctement l\'adresse du serveur (ex: rds.gmd-eurocast.com).',
+					'Ouvrir Gestionnaire d\'identification Windows et supprimer les anciennes entrées RDS.',
+					'Lancer mstsc, cliquer sur Options, vérifier le domaine \"EUROCAST\\identifiant\".',
+					'Si écran noir prolongé: fermer, attendre 30s, réessayer (session précédente bloquée).',
+					'Si persistant, ouvrir un ticket GLPI avec capture du message exact.'
 				],
-				prevention:['Nettoyer les files bloquées','Éviter redémarrages forcés lors d’impression','Ne pas supprimer le port TCP/IP']
+				prevention:['Fermer proprement la session (Déconnexion, pas Fermer)','Ne pas lancer plusieurs clients RDS simultanément','Renouveler mot de passe avant expiration pour éviter des sync errors']
 			},
 			{
 				id:'wifi-slow',
@@ -261,8 +287,24 @@
 		document.body.addEventListener('click', (e)=> {
 			if(e.target.matches('[data-expand]')) {
 				const card = e.target.closest('.faq-item');
-				card.classList.toggle('open');
-				e.target.textContent = card.classList.contains('open') ? 'Masquer' : 'Afficher';
+				const isOpening = !card.classList.contains('open');
+				// Fermer les autres
+				Array.from(document.querySelectorAll('.faq-item.open')).forEach(other => {
+					if(other!==card){
+						other.classList.remove('open');
+						const btn = other.querySelector('[data-expand]');
+						if(btn) btn.textContent='Afficher';
+					}
+				});
+				if(isOpening){
+					card.classList.add('open');
+					e.target.textContent='Masquer';
+					// Scroll doux si en bas de page
+					card.scrollIntoView({behavior:'smooth', block:'start'});
+				}else{
+					card.classList.remove('open');
+					e.target.textContent='Afficher';
+				}
 			}
 			if(e.target.matches('[data-copy]')) {
 				const card = e.target.closest('.faq-item');

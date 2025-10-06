@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Parcours d'Intégration - Eurocast</title>
+  <link rel="preconnect" href="https://fonts.gstatic.com"/>
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    :root {
+      --c-primary:#b31217; /* rouge principal */
+      --c-primary-alt:#e53935; /* rouge clair */
+      --c-accent:#ff5252; /* accent */
+      --c-bg:#f5f7fa;
+      --c-surface:#ffffff;
+      --c-border:#e3e7ec;
+      --c-text:#333;
+      --c-text-light:#5a6573;
+      --radius:16px;
+      --shadow-sm:0 2px 4px rgba(0,0,0,.04);
+      --shadow-md:0 6px 18px rgba(0,0,0,.08);
+      --gradient:linear-gradient(135deg,var(--c-primary-alt) 0%,var(--c-primary) 100%);
+    }
+    body {font-family:'Segoe UI',system-ui,sans-serif;margin:0;background:var(--c-bg);color:var(--c-text);}
+  header {background:var(--gradient);color:#fff;padding:16px 26px;box-shadow:0 6px 18px rgba(0,0,0,.16);position:sticky;top:0;z-index:1000;}
+    header .inner {max-width:1240px;margin:0 auto;display:flex;flex-wrap:wrap;align-items:center;gap:24px;justify-content:space-between;}
+  header h1 {margin:0;font-size:1.55rem;letter-spacing:.5px;display:flex;align-items:center;gap:10px;}
+    .breadcrumb {font-size:.78rem;opacity:.9;}
+  main {max-width:1240px;margin:0 auto;padding:40px 22px 100px;display:grid;grid-template-columns:340px 1fr;gap:34px;align-items:start;}
+    @media (max-width:1100px){main{grid-template-columns:1fr;} .sidebar{position:static;width:auto;}}
+  .sidebar {position:sticky;top:18px;align-self:start;display:flex;flex-direction:column;gap:18px;background:var(--c-surface);padding:22px 20px;border:1px solid var(--c-border);border-radius:18px;box-shadow:var(--shadow-sm);max-height:calc(100vh - 36px);}
+    .sidebar h2 {margin:0 0 4px;font-size:1.05rem;color:var(--c-primary);letter-spacing:.5px;}
+  .module-scroll {flex:1;min-height:0;display:flex;flex-direction:column;gap:12px;}
+  .module-list {list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:4px;max-height:calc(100vh - 300px);overflow-y:auto;scrollbar-width:thin;}
+  .module-list::-webkit-scrollbar {width:8px;}
+  .module-list::-webkit-scrollbar-track {background:#f0f2f4;border-radius:20px;}
+  .module-list::-webkit-scrollbar-thumb {background:#c2c8ce;border-radius:20px;}
+    .module-list li {margin:0;padding:0;}
+    .module-link {display:flex;align-items:center;gap:10px;text-decoration:none;background:#fff;border:1px solid var(--c-border);padding:10px 14px;font-size:.8rem;border-radius:10px;color:var(--c-text-light);font-weight:600;letter-spacing:.4px;transition:.18s;position:relative;}
+    .module-link:hover {border-color:#d6dbe0;background:#fafbfc;color:var(--c-primary);} 
+    .module-link.active {border-color:var(--c-primary);color:var(--c-primary);background:linear-gradient(135deg,#fff,#f8f9fb);} 
+  .module-link .status {margin-left:auto;font-size:.6rem;font-weight:700;background:#edf0f3;padding:0 8px;min-width:58px;height:20px;display:inline-flex;align-items:center;justify-content:center;border-radius:40px;color:#55616e;letter-spacing:.5px;}
+    .module-link.done .status {background:var(--c-primary);color:#fff;}
+    .progress-block {background:#fff;border:1px solid var(--c-border);padding:16px 18px;border-radius:16px;box-shadow:var(--shadow-sm);}
+    .progress-label {font-size:.7rem;font-weight:700;letter-spacing:.5px;color:#5a6573;display:flex;justify-content:space-between;margin-bottom:6px;}
+    .progress-bar {height:10px;background:#eceff2;border-radius:40px;position:relative;overflow:hidden;}
+    .progress-bar span {position:absolute;inset:0;display:block;background:var(--gradient);width:0%;transition:width .5s ease;}
+    .cta-quiz {display:block;text-decoration:none;text-align:center;font-weight:600;font-size:.85rem;padding:14px 18px;border-radius:14px;background:var(--gradient);color:#fff;box-shadow:0 4px 14px rgba(179,18,23,.25);letter-spacing:.5px;transition:.2s;margin-top:10px;}
+    .cta-quiz:hover {filter:brightness(1.06);transform:translateY(-2px);}    
+
+    /* Content modules */
+    .content {display:flex;flex-direction:column;gap:42px;}
+  section.training-module {background:var(--c-surface);border:1px solid var(--c-border);border-radius:20px;padding:34px 40px;box-shadow:var(--shadow-sm);position:relative;overflow:hidden;transition:background .45s, border-color .45s, box-shadow .45s, transform .45s;}
+    section.training-module::before {content:"";position:absolute;inset:0;background:radial-gradient(at 120% 10%,rgba(255,82,82,.08),transparent 60%);pointer-events:none;}
+    section.training-module h3 {margin:0 0 14px;font-size:1.3rem;letter-spacing:.5px;color:var(--c-primary);display:flex;align-items:center;gap:10px;}
+    section.training-module .meta {font-size:.7rem;font-weight:700;letter-spacing:.5px;color:#5f6b78;margin-bottom:18px;display:flex;gap:16px;flex-wrap:wrap;}
+    p,li {line-height:1.55;}
+    .key-points {display:grid;gap:14px;margin:20px 0 6px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));}
+    .key {background:#fff;border:1px solid #e2e6eb;border-radius:14px;padding:14px 16px;font-size:.72rem;font-weight:600;letter-spacing:.4px;display:flex;align-items:flex-start;gap:8px;line-height:1.35;box-shadow:0 2px 5px rgba(0,0,0,.04);} 
+    .key i {font-style:normal;color:var(--c-primary);}   
+    .callout {border-left:5px solid var(--c-primary);background:linear-gradient(135deg,#fff,#f8f9fb);padding:18px 20px;border-radius:14px;margin:22px 0;font-size:.85rem;box-shadow:0 2px 8px rgba(0,0,0,.05);} 
+    .callout.danger {border-left-color:#e53935;background:linear-gradient(135deg,#fff,#fff5f5);} 
+    .inline-badge {display:inline-block;background:#b31217;color:#fff;font-size:.6rem;padding:3px 8px;border-radius:40px;letter-spacing:.5px;font-weight:700;margin-left:6px;}
+    .checklist {list-style:none;margin:0;padding:0;display:grid;gap:10px;}
+    .checklist li {background:#fff;border:1px solid #e2e6eb;border-radius:12px;padding:10px 14px;font-size:.76rem;display:flex;gap:10px;align-items:flex-start;line-height:1.3;}
+    .tagline {font-style:italic;color:#5d6772;margin-top:6px;font-size:.8rem;}
+    details.module-collapse {margin-top:18px;border:1px solid #e4e7eb;border-radius:14px;overflow:hidden;background:#fcfdfe;}
+    details.module-collapse summary {cursor:pointer;list-style:none;padding:14px 18px;font-weight:600;font-size:.82rem;display:flex;align-items:center;gap:8px;color:#374151;position:relative;}
+    details.module-collapse[open] summary {background:linear-gradient(135deg,#ffffff,#f2f4f7);color:var(--c-primary);} 
+    details.module-collapse summary::-webkit-details-marker {display:none;}
+    details.module-collapse .collapse-body {padding:0 20px 18px;font-size:.78rem;}
+    code {background:#f1f3f5;padding:3px 6px;border-radius:6px;font-size:.75rem;} 
+    .float-done {position:absolute;top:16px;right:16px;background:#16a34a;color:#fff;font-size:.6rem;padding:6px 10px;border-radius:40px;letter-spacing:.5px;font-weight:700;display:none;}
+  section.training-module.done {border-color:var(--c-primary);box-shadow:0 8px 28px -4px rgba(179,18,23,.25),0 2px 10px rgba(0,0,0,.06);}
+  section.training-module.done .float-done {display:inline-block;} 
+  .float-done {opacity:0;transform:translateY(-4px);transition:opacity .4s, transform .4s;}
+  section.training-module.done .float-done {opacity:1;transform:translateY(0);}    
+  @keyframes pulseRing {0%{box-shadow:0 0 0 0 rgba(179,18,23,.55);}70%{box-shadow:0 0 0 14px rgba(179,18,23,0);}100%{box-shadow:none;}}
+  section.training-module.pulse-done {animation:pulseRing 1.2s ease;}    
+  .mark-done-btn {margin-top:0;background:var(--gradient);color:#fff;border:none;padding:12px 18px;font-weight:600;border-radius:12px;cursor:pointer;font-size:.78rem;letter-spacing:.5px;box-shadow:0 3px 10px rgba(0,0,0,.15);transition:.18s;}
+  .module-actions {margin-top:24px;}
+    .mark-done-btn:hover {filter:brightness(1.07);transform:translateY(-2px);}    
+  .module-actions {display:flex;align-items:center;gap:12px;margin-top:24px;flex-wrap:wrap;}
+  .module-actions .nav-next[hidden]{display:none !important;}
+  .next-module-btn {background:#fff;border:1px solid var(--c-primary);color:var(--c-primary);padding:10px 16px;font-size:.7rem;font-weight:600;letter-spacing:.5px;border-radius:10px;cursor:pointer;display:inline-flex;align-items:center;gap:6px;position:relative;overflow:hidden;transition:.25s;animation:fadeSlide .5s ease;}
+  .next-module-btn::before {content:"";position:absolute;inset:0;background:var(--gradient);opacity:0;transition:.35s;}
+  .next-module-btn span {position:relative;z-index:1;}
+  .next-module-btn:hover {color:#fff;box-shadow:0 4px 14px rgba(179,18,23,.25);transform:translateY(-2px);} 
+  .next-module-btn:hover::before {opacity:1;}   
+  @keyframes fadeSlide {0%{opacity:0;transform:translateY(8px);}100%{opacity:1;transform:translateY(0);}}
+  .scroll-highlight {animation:highlightNext 2.4s ease forwards;}
+  @keyframes highlightNext {0%{box-shadow:0 0 0 0 rgba(229,57,53,.55);}60%{box-shadow:0 0 0 10px rgba(229,57,53,0);}100%{box-shadow:none;}}
+    .time-est {font-size:.65rem;font-weight:700;letter-spacing:.5px;background:#eef1f4;color:#53606e;padding:4px 8px;border-radius:40px;display:inline-flex;align-items:center;gap:4px;}
+    .module-footer {margin-top:28px;border-top:1px solid #eceff2;padding-top:14px;font-size:.65rem;display:flex;justify-content:space-between;color:#677381;flex-wrap:wrap;gap:10px;}
+    .next-hint {font-weight:600;color:var(--c-primary);}
+    .toc-divider {height:1px;background:#e4e7eb;margin:4px 0 10px;}
+  .search-mod {position:relative;}
+  .search-mod input {width:100%;padding:10px 14px 10px 38px;border:1px solid #d8dde2;border-radius:12px;font-size:.75rem;background:#fff;box-sizing:border-box;}
+  .search-mod input:focus {outline:none;border-color:var(--c-primary);box-shadow:0 0 0 3px rgba(179,18,23,.2);}    
+  .search-mod .icon {position:absolute;left:12px;top:50%;transform:translateY(-50%);font-size:.8rem;color:var(--c-primary);}  
+    .filter-hidden {display:none !important;}
+
+    /* Helper highlight for anchor navigation */
+    .flash-highlight {animation:flashBg 2.4s ease forwards;}
+    @keyframes flashBg {0%{box-shadow:0 0 0 0 rgba(229,57,53,.55);}60%{box-shadow:0 0 0 6px rgba(229,57,53,.0);}100%{box-shadow:none;}}
+
+    footer {margin-top:80px;font-size:.6rem;text-align:center;color:#7a838d;}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="inner">
+      <h1>👋 Parcours d'intégration Eurocast</h1>
+      <div class="breadcrumb">Intranet › Onboarding</div>
+    </div>
+  </header>
+  <main>
+    <aside class="sidebar" aria-label="Plan de formation">
+      <div class="search-mod"><span class="icon">🔎</span><input id="searchModules" type="text" placeholder="Filtrer les modules..." /></div>
+      <h2>Modules</h2>
+      <div class="module-scroll">
+        <ul class="module-list" id="moduleList" aria-label="Liste des modules (défilable)"></ul>
+      </div>
+      <div class="progress-block">
+        <div class="progress-label"><span>Progression</span><span id="progressText">0%</span></div>
+        <div class="progress-bar"><span id="progressBar"></span></div>
+      </div>
+      <a href="quiz_onboarding.html" class="cta-quiz" id="quizCta" aria-disabled="true" style="pointer-events:none;opacity:.5;">Passer le quiz final</a>
+      <small style="font-size:.6rem;color:#6b757f;line-height:1.4;">Le quiz se débloque après validation de tous les modules. Temps total estimé ≈ 20 min.</small>
+    </aside>
+
+    <div class="content" id="content"></div>
+  </main>
+
+  <footer>© Eurocast – Programme interne d'accueil. Version 1.0 – Généré automatiquement (<span id="today"></span>).</footer>
+
+  <script>
+    const modules = [
+      { id:'m1', icon:'🚀', titre:"Bienvenue & Objectifs", time:2, tags:['intro','culture'], points:[
+        'Comprendre la mission et la vision du groupe',
+        'Découvrir les valeurs clés: qualité, sécurité, amélioration continue',
+        'Savoir où trouver les ressources de référence internes'
+      ], contenu:`<p>Bienvenue chez <strong>EUROCAST</strong>. Vous rejoignez un environnement industriel exigeant où la rigueur, la sécurité et la collaboration sont essentielles. Ce parcours vous accompagne durant votre première journée et reste consultable ensuite.</p>
+      <div class='callout'><strong>Astuce :</strong> Ajoutez cette page aux favoris de votre navigateur pour y revenir facilement.</div>
+      <p class='tagline'>Objectif: vous rendre autonome plus vite.</p>`, recap:"Comprendre la culture et savoir où trouver les infos.", prevention:['Savoir où aller avant de demander','Consulter la base documentaire'], next:'Sécurité informatique' },
+
+      { id:'m2', icon:'🛡️', titre:"Sécurité informatique & MFA", time:3, tags:['sécurité','mfa','social'], points:[
+        'Créer des mots de passe forts (≥ 12 caractères)',
+        'Activer & respecter le MFA',
+        'Reconnaître un e-mail suspect (phishing)',
+        'Identifier une tentative de social engineering (prétexte + demande inhabituelle)'
+      ], contenu:`<p>La sécurité est une responsabilité partagée. <strong>Mot de passe</strong> : au moins 12 caractères, mélange lettres/chiffres/symboles. Pas de réutilisation entre services publics et internes.</p>
+      <details class='module-collapse'><summary>Bonnes pratiques mots de passe</summary><div class='collapse-body'><ul><li>Éviter prénoms / dates évidents</li><li>Ne jamais partager votre mot de passe</li><li>Changer immédiatement si doute</li></ul></div></details>
+      <div class='callout danger'><strong>Phishing ?</strong> Ne pas cliquer – transférer à <a href='mailto:it-eurocast@gmd-eurocast.com'>it-eurocast@gmd-eurocast.com</a>.</div>
+      <p><strong>MFA</strong> : protège contre l'usurpation. Vérifiez régulièrement vos appareils d'authentification.</p>
+      <details class='module-collapse'><summary>Reconnaître le social engineering</summary><div class='collapse-body'><p>Le <strong>social engineering</strong> consiste à manipuler une personne pour lui faire réaliser une action sensible ou divulguer une information (code MFA, mot de passe, accès, fichier interne).</p><ul style='margin:0 0 10px 18px;padding:0;font-size:.75rem;line-height:1.4;'>
+          <li>Urgence artificielle ("action immédiate sinon blocage").</li>
+          <li>Autorité simulée ("Direction / IT / Audit" sans canal officiel).</li>
+          <li>Demande inhabituelle (code MFA, export de données, liste d'utilisateurs).</li>
+          <li>Canal inattendu (appel + accentuer la pression émotionnelle).</li>
+          <li>Prétexte flou ou incohérent.</li>
+        </ul>
+        <p style='font-size:.7rem;color:#5a6573;margin:0 0 6px;'><strong>Réflexe :</strong> Ne jamais donner un code ou valider une action si vous n'avez pas initié la procédure. Vérifier via un canal officiel interne.</p>
+        <p style='font-size:.7rem;color:#5a6573;margin:0;'><strong>Réponse :</strong> Raccrocher / ignorer, signaler au support sécurité.</p></div></details>`, recap:"Appliquer les règles de mots de passe, MFA et détecter phishing / social engineering.", prevention:['Activer MFA partout','Signaler tout mail ou appel suspect','Ne jamais donner un code demandé'], next:'Utilisation des outils & GLPI' },
+
+      { id:'m3', icon:'🗂️', titre:"Utilisation des outils & Ticket GLPI", time:3, tags:['glpi','outil'], points:[
+        'Se connecter aux principaux services',
+        'Créer un ticket clair et exploitable',
+        'Suivre son ticket et relancer efficacement'
+      ], contenu:`<p><strong>Outils essentiels</strong> : Intranet, GLPI (support), Messagerie, RDS (accès distant), OneDrive.</p>
+      <details class='module-collapse'><summary>Créer un ticket GLPI</summary><div class='collapse-body'><ol><li>Aller sur le portail GLPI.</li><li>Choisir la bonne catégorie (ex: "Incidents" / "Demandes").</li><li>Décrire : contexte, action faite, résultat attendu, capture si possible.</li><li>Valider et suivre l'évolution via vos tickets ouverts.</li></ol><p><em>Plus votre description est précise, plus la résolution est rapide.</em></p></div></details>
+      <div class='callout'><strong>Clarté</strong> = objet descriptif + description structurée + pièce jointe utile.</div>`, recap:"Savoir ouvrir un ticket GLPI efficace.", prevention:['Ajouter des captures','Éviter tickets doublons'], next:'Communication interne' },
+
+      { id:'m4', icon:'💬', titre:"Communication & Collaboration", time:2, tags:['communication'], points:[
+        'Règles mails internes',
+        'Usage des canaux instantanés',
+        'Réunions efficaces'
+      ], contenu:`<p><strong>Mail</strong> : objet clair, une idée principale par message quand possible. Utiliser CC modérément.</p><p><strong>Canaux rapides</strong> : privilégier chat interne pour questions simples. Documenter les décisions importantes dans un support partagé.</p><p><strong>Réunions</strong> : ordre du jour, timebox, synthèse écrite.</p>`, recap:"Structurer sa communication.", prevention:['Limiter le bruit','Centraliser les décisions'], next:'Protection des données' },
+
+      { id:'m5', icon:'🔐', titre:"Données & Confidentialité", time:2, tags:['données','confidentialité'], points:[
+        'Classification de base',
+        'Stockage sécurisé',
+        'Partager correctement'
+      ], contenu:`<p>Les données peuvent être <em>Publiques</em>, <em>Internes</em>, <em>Confidentielles</em>. Stocker toujours sur espaces approuvés (OneDrive, partages sécurisés).</p><p>Éviter clé USB personnelle. Chiffrer avant transfert si externe.</p>`, recap:"Identifier & protéger les données.", prevention:['Limiter diffusion','Utiliser stockage approuvé'], next:'Matériel & responsabilité' },
+
+      { id:'m6', icon:'💻', titre:"Matériel & Responsabilité", time:2, tags:['matériel'], points:[
+        'Soins & usage',
+        'Déplacements',
+        'Perte / vol'
+      ], contenu:`<p>Le matériel pro reste propriété de l'entreprise. Usage <strong>professionnel prioritaire</strong>. Garder les postes verrouillés lors d'absence.</p><p><strong>Déplacement :</strong> ne jamais laisser un ordinateur dans une voiture visible. Transporter dans sac adapté.</p><p><strong>Perte / vol :</strong> déclarer immédiatement IT + éventuellement sûreté.</p>`, recap:"Respecter et sécuriser le matériel.", prevention:['Verrouiller session','Protéger physiquement'], next:'Support & Escalade' },
+
+      { id:'m7', icon:'🛠️', titre:"Support & Escalade", time:2, tags:['support'], points:[
+        'Niveaux de support',
+        'Quand escalader',
+        'Suivi'
+      ], contenu:`<p><strong>Niveau 1 :</strong> FAQ / Intranet / Auto-diagnostic.</p><p><strong>Niveau 2 :</strong> Ticket GLPI.</p><p><strong>Niveau 3 :</strong> Escalade (urgence prod / sécurité) – contacter le numéro dédié.</p><div class='callout danger'><strong>Urgence critique :</strong> impact production, sécurité physique, fuite de données → alerte immédiate.</div>`, recap:"Utiliser bon niveau de support.", prevention:['Consulter FAQ avant','Regrouper infos utiles'], next:'Usage acceptable' },
+
+      { id:'m8', icon:'📜', titre:"Usage acceptable & Conformité", time:2, tags:['charte'], points:[
+        'Usage raisonnable',
+        'Téléchargements',
+        'Respect légal'
+      ], contenu:`<p>Respect de la charte d'utilisation. Pas de logiciels non autorisés.</p><p>Limitations d'usage personnel : raisonnable, sans impact travail / sécurité.</p><p>Pas de stockage de contenu illégal / non conforme.</p>`, recap:"Appliquer la charte usage acceptable.", prevention:['Installer uniquement approuvé','Signaler anomalies'], next:'Checklist de démarrage' },
+
+      { id:'m9', icon:'✅', titre:"Checklist de Démarrage", time:1, tags:['checklist'], points:[
+        'Accès validés',
+        'Sécurité appliquée',
+        'Outils maîtrisés'
+      ], contenu:`<ul class='checklist'>
+          <li>Connexion intranet OK</li>
+          <li>Compte mail fonctionnel</li>
+          <li>MFA activé & testé</li>
+          <li>OneDrive accessible</li>
+          <li>Procédure ticket GLPI comprise</li>
+          <li>Phishing: sais reconnaître un mail suspect</li>
+          <li>Matériel étiqueté & en bon état</li>
+          <li>Contacts support notés</li>
+        </ul>
+        <div class='callout'><strong>Si une case manque :</strong> ouvrir un ticket ou voir votre référent.</div>`, recap:"Valider autonomie de base.", prevention:['Revoir modules manqués'], next:'Quiz final & certification' },
+
+      { id:'m10', icon:'🎓', titre:"Préparation au Quiz Final", time:1, tags:['quiz'], points:[
+        'Points clés sécurité',
+        'Responsabilités',
+        'Processus support'
+      ], contenu:`<p>Le quiz couvre : sécurité (MFA, phishing), ticket GLPI, matériel, données, usage acceptable.</p><p>Score requis : <strong>70%</strong> pour générer le certificat d'intégration de base.</p><p>Relire si besoin les sections.</p><div class='callout'><strong>Quand prêt :</strong> cliquez sur le bouton « Passer le quiz final » dans le menu.</div>`, recap:"Prêt à être évalué.", prevention:['Réviser sécurité','Relire GLPI'] }
+    ];
+
+    const content = document.getElementById('content');
+    const list = document.getElementById('moduleList');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+    const quizCta = document.getElementById('quizCta');
+
+    function buildModule(mod){
+      const wrap = document.createElement('section');
+      wrap.className = 'training-module';
+      wrap.id = mod.id;
+      wrap.innerHTML = `
+        <div class="float-done">COMPLÉTÉ</div>
+        <h3>${mod.icon} ${mod.titre} <span class="time-est" title="Temps estimé">⏱ ${mod.time} min</span></h3>
+        <div class="meta"><span>RÉSUMÉ : ${mod.recap}</span><span>MOT-CLÉS : ${mod.tags.join(', ')}</span></div>
+        <p style="margin:0 0 12px;font-size:.9rem;color:var(--c-text-light);">Points clés :</p>
+        <div class="key-points">${mod.points.map(p=>`<div class='key'><i>•</i>${p}</div>`).join('')}</div>
+        ${mod.contenu}
+        <div class="module-actions">
+          <button class="mark-done-btn" data-done="${mod.id}" aria-pressed="false">Marquer comme terminé</button>
+          <div class="nav-next" hidden><button class="next-module-btn" data-next="${mod.id}"><span>Suivant ▶</span></button></div>
+        </div>
+        <div class="module-footer"><span>Module: ${mod.titre}</span><span class="next-hint">Suivant : ${mod.next || '—'}</span></div>`;
+      return wrap;
+    }
+
+    function buildTocItem(mod){
+      const li = document.createElement('li');
+      li.innerHTML = `<a href="#${mod.id}" class="module-link" data-link="${mod.id}"><span>${mod.icon}</span><span>${mod.titre}</span><span class="status">EN COURS</span></a>`;
+      return li;
+    }
+
+    function render(){
+      content.innerHTML='';
+      list.innerHTML='';
+      modules.forEach(m=>{content.appendChild(buildModule(m)); list.appendChild(buildTocItem(m));});
+    }
+    render();
+
+    // State handling
+    const state = JSON.parse(localStorage.getItem('onboarding_state_v1')||'{}');
+    function save(){ localStorage.setItem('onboarding_state_v1', JSON.stringify(state)); }
+
+    function updateProgress(){
+      const total = modules.length;
+      const doneCount = Object.values(state).filter(v=>v===true).length;
+      const pct = Math.round(doneCount/total*100);
+      progressBar.style.width = pct+'%';
+      progressText.textContent = pct+'%';
+      modules.forEach(m=>{
+        const card = document.getElementById(m.id);
+        if(!card) return;
+        const btn = card.querySelector('.mark-done-btn');
+        const navNext = card.querySelector('.nav-next');
+        if(state[m.id]){
+          card.classList.add('done');
+          btn.textContent='Marqué ✓';
+          btn.setAttribute('aria-pressed','true');
+          if(navNext) navNext.hidden=false;
+        } else {
+          card.classList.remove('done');
+          btn.textContent='Marquer comme terminé';
+          btn.setAttribute('aria-pressed','false');
+          if(navNext) navNext.hidden=true;
+        }
+      });
+      document.querySelectorAll('.module-link').forEach(a=>{
+        const id=a.dataset.link; const st = a.querySelector('.status');
+        if(state[id]){a.classList.add('done'); st.textContent='OK';}
+        else {a.classList.remove('done'); st.textContent='EN COURS';}
+      });
+      if(doneCount===total){
+        quizCta.style.pointerEvents='auto'; quizCta.style.opacity='1'; quizCta.setAttribute('aria-disabled','false');
+      } else {
+        quizCta.style.pointerEvents='none'; quizCta.style.opacity='.5'; quizCta.setAttribute('aria-disabled','true');
+      }
+    }
+
+    updateProgress();
+
+    // Mark done listener
+    content.addEventListener('click', e=>{
+      const btn = e.target.closest('[data-done]');
+      if(!btn) return;
+      const id = btn.dataset.done;
+      // toggle behavior
+      state[id] = !state[id];
+      save();
+      updateProgress();
+      const card = document.getElementById(id);
+      if(state[id]){ // just marked done, add pulse
+        card.classList.remove('pulse-done');
+        void card.offsetWidth; // force reflow to restart animation
+        card.classList.add('pulse-done');
+        const navNext = card.querySelector('.nav-next');
+        if(navNext){ navNext.hidden=false; }
+      } else {
+        const navNext = card.querySelector('.nav-next');
+        if(navNext){ navNext.hidden=true; }
+      }
+      btn.blur();
+    });
+
+    // delegate next button clicks
+    content.addEventListener('click', e=>{
+      const nextBtn = e.target.closest('[data-next]');
+      if(!nextBtn) return;
+      const currentId = nextBtn.dataset.next;
+      const idx = modules.findIndex(m=>m.id===currentId);
+      if(idx>-1 && idx < modules.length-1){
+        const nextMod = modules[idx+1];
+        const target = document.getElementById(nextMod.id);
+        if(target){
+          target.classList.add('scroll-highlight');
+          const headerH = document.querySelector('header')?.offsetHeight || 0;
+          const top = target.offsetTop - headerH - 12;
+          window.scrollTo({top, behavior:'smooth'});
+          setTimeout(()=> target.classList.remove('scroll-highlight'),2600);
+        }
+      } else if(idx === modules.length-1) {
+        // dernier : focus sur CTA quiz si débloqué
+        const headerH = document.querySelector('header')?.offsetHeight || 0;
+        const top = quizCta.getBoundingClientRect().top + window.scrollY - headerH - 20;
+        window.scrollTo({top, behavior:'smooth'});
+      }
+    });
+
+    // TOC active sync + smooth scroll
+    document.addEventListener('scroll',()=>{
+      const fromTop = window.scrollY + 140;
+      let currentId=null;
+      modules.forEach(m=>{
+        const el=document.getElementById(m.id); if(!el) return; const top=el.offsetTop; if(top<=fromTop) currentId=m.id;});
+      document.querySelectorAll('.module-link').forEach(a=>{a.classList.toggle('active', a.dataset.link===currentId);});
+    });
+
+    // Filter modules in sidebar
+    const searchModules=document.getElementById('searchModules');
+    searchModules.addEventListener('input', ()=>{
+      const term=searchModules.value.toLowerCase();
+      modules.forEach(m=>{
+        const match = m.titre.toLowerCase().includes(term) || m.tags.join(' ').includes(term);
+        document.getElementById(m.id).classList.toggle('filter-hidden', !match);
+        const link=document.querySelector(`.module-link[data-link="${m.id}"]`); if(link) link.classList.toggle('filter-hidden', !match);
+      });
+    });
+
+    // Anchor highlight if hash
+    if(location.hash){ const target=document.querySelector(location.hash); if(target){ target.classList.add('flash-highlight'); setTimeout(()=>target.classList.remove('flash-highlight'),2600);} }
+
+    document.getElementById('today').textContent = new Date().toLocaleDateString('fr-FR');
+  </script>
+</body>
+</html>
