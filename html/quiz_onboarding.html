@@ -121,22 +121,23 @@
 
   <script>
     // Banque de questions
-  const baseQuestions = [
-      { q:"Pourquoi le MFA est-il essentiel?", answers:["Pour faire joli","Pour bloquer l'usurpation d'identifiants","Pour accélérer le PC"], correct:1, explain:"Le MFA ajoute un second facteur réduisant fortement l'exploitation d'un mot de passe compromis." },
-      { q:"Composants d'un bon ticket GLPI?", answers:["Salut urgent stp","Description structurée + contexte + capture","Uniquement une capture"], correct:1, explain:"Un ticket exploitable contient contexte, action faite, résultat attendu et si possible une capture." },
-      { q:"Action en cas de mail suspect?", answers:["Cliquer pour vérifier si le lien marche","Transférer au support sécurité sans interagir","Répondre pour demander si c'est normal"], correct:1, explain:"Ne jamais cliquer, transférer immédiatement pour analyse." },
-      { q:"Stockage recommandé pour documents internes confidentiels?", answers:["Clé USB perso chiffrée peut-être","OneDrive / partage sécurisé autorisé","Dossier local C: non sauvegardé"], correct:1, explain:"Seul un espace approuvé centralisé garantit sauvegarde et contrôle d'accès." },
-      { q:"En déplacement avec le PC portable: meilleure pratique?", answers:["Le laisser vite fait dans la voiture, caché sous un blouson","Le garder physiquement avec soi ou sous surveillance","Le confier à un ami pour alléger votre sac"], correct:1, explain:"Le vol opportuniste est très rapide, toujours garder l'équipement sous contrôle." },
-      { q:"Mot de passe oublié: que faire?", answers:["Demander celui d'un collègue temporairement","Réinitialiser via procédure officielle","Créer un compte perso provisoire"], correct:1, explain:"Seule la procédure de réinitialisation maintient la traçabilité et la sécurité." },
-      { q:"But principal de la checklist finale?", answers:["Remplacer la supervision IT","Valider l'autonomie de base et la complétude des accès","Ajouter une formalité bureaucratique inutile"], correct:1, explain:"Elle confirme que les prérequis d'autonomie sont remplis." },
-      { q:"Utilisation personnelle du matériel:", answers:["Illimitée tant que personne ne voit","Raisonnable, sans risque ni impact professionnel","Strictement interdite même hors temps de travail"], correct:1, explain:"Tolérée si pas de risque sécurité ni baisse de productivité." },
-      { q:"Quel signal est le PLUS suspect dans un mail?", answers:["Formule de politesse correcte","Demande d'urgence + lien vers domaine légèrement altéré","Logo haute qualité"], correct:1, explain:"Combinaison urgence + domaine altéré = fort indicateur de phishing." },
-      { q:"Avant d'escalader un incident critique:", answers:["Vérifier impact réel / production et réunir faits","Escalader tout de suite sans contexte","Attendre confirmation officieuse"], correct:0, explain:"Évaluer et qualifier avec faits avant escalade améliore la réponse." },
-      { q:"Choix le PLUS sûr pour partager un fichier interne sensible:", answers:["Pièce jointe mail externe non chiffrée","Lien OneDrive avec partage restreint","Upload sur un site gratuit d'hébergement"], correct:1, explain:"Partage restreint OneDrive = contrôle et révocation possible." },
-  { q:"Quel scénario illustre une tentative de social engineering ?", answers:["Un faux 'technicien' vous appelle pour vous faire dicter ou valider un code MFA","Un collègue vous dit bonjour en open-space","Une invitation de réunion interne prévue"], correct:0, explain:"Le social engineering cherche à obtenir une action ou information sensible (ex: code MFA) via une apparence légitime et un prétexte crédible." },
-      { q:"Bon mot de passe selon politique (12+):", answers:["P@ssw0rd2024","Equation!Arbre!Verre!12","123456789012"], correct:1, explain:"Phrase complexe multi-mots + symboles = entropie supérieure." },
-      { q:"Réaction correcte après réception d'un SMS inattendu sur authentification:", answers:["Ignorer et le donner si on appelle","Le signaler si non initié et vérifier l'activité","Répondre STOP avec son identifiant"], correct:1, explain:"Un code non sollicité peut signifier tentative de connexion frauduleuse." },
-      { q:"Poste trouvé déjà connecté sans surveillance:", answers:["Consulter rapidement des mails pour aider","Verrouiller immédiatement et informer si récurrent","Changer le fond d'écran pour faire une blague"], correct:1, explain:"Sécuriser immédiatement avant abus potentiel." }
+    const baseQuestions = [
+      { q:"Pourquoi l'authentification multifacteur (MFA) est-elle essentielle ?", answers:["Pour décorer l'interface","Pour empêcher l'utilisation d'identifiants compromis","Pour accélérer l'ordinateur"], correct:1, explain:"Le MFA réduit fortement l'exploitation d'un mot de passe compromis en exigeant un second facteur.", module:'m2' },
+      { q:"Quels éléments rendent un ticket GLPI exploitable ?", answers:["Un simple 'URGENT svp'","Description structurée + contexte + résultat attendu + capture utile","Uniquement une capture d'écran"], correct:1, explain:"Contexte + actions tentées + résultat attendu + preuve = diagnostic rapide.", module:'m3' },
+      { q:"Que faire face à un e-mail clairement suspect ?", answers:["Cliquer pour ouvrir les pièces jointes et vérifier","Le transférer immédiatement au support sécurité sans interagir","Répondre pour demander s'il est légitime"], correct:1, explain:"Ne pas interagir : transférer pour analyse préserve les preuves et limite le risque.", module:'m2' },
+      { q:"Où stocker un document interne CONFIDENTIEL ?", answers:["Sur une clé USB personnelle 'temporaire'","Dans OneDrive ou un partage sécurisé autorisé","Dans un dossier local non sauvegardé"], correct:1, explain:"Un stockage approuvé centralisé assure sauvegarde et contrôle d'accès.", module:'m5' },
+      { q:"En déplacement avec votre PC portable, la meilleure pratique est :", answers:["Le laisser dans la voiture caché sous un vêtement","Le garder toujours sur vous ou sous surveillance directe","Le prêter pour alléger le sac"], correct:1, explain:"Un appareil laissé sans surveillance est une cible facile. Toujours le conserver sous contrôle.", module:'m6' },
+      { q:"Mot de passe oublié : réaction conforme ?", answers:["Demander temporairement celui d'un collègue","Utiliser la procédure officielle de réinitialisation","Créer un compte personnel provisoire"], correct:1, explain:"Seule la procédure officielle maintient traçabilité et sécurité.", module:'m2' },
+      { q:"But principal de la checklist de fin d'onboarding ?", answers:["Remplacer la supervision informatique","Valider que l'autonomie de base et les accès essentiels sont en place","Ajouter une formalité inutile"], correct:1, explain:"Elle confirme que la base opérationnelle est prête.", module:'m9' },
+      { q:"Concernant l'usage du matériel informatique professionnel :", answers:["Usage personnel illimité tant que cela reste discret","Usage strictement professionnel (pas d'usage personnel)","Prêt libre à des proches de confiance"], correct:1, explain:"Le matériel est dédié à l'activité professionnelle uniquement.", module:'m6' },
+      { q:"Quel signe doit en priorité vous alerter dans un e‑mail qui paraît crédible ?", answers:["Adresse d'expédition réelle (domaine) légèrement différente / altérée","Logo officiel en haute résolution","Texte soigné sans fautes"], correct:0, explain:"Le domaine exact de l'expéditeur est l'indicateur le plus fiable : un domaine altéré ou masqué malgré un contenu soigné est caractéristique d'un phishing élaboré. Ex: support@micr0soft-secure.com (0 à la place du o).", module:'m2' },
+      { q:"Avant d'escalader un incident 'critique', il faut :", answers:["Vérifier l'impact réel et collecter les faits","Escalader immédiatement sans vérification","Attendre pour voir si cela se reproduit"], correct:0, explain:"Qualification factuelle évite les fausses alertes et accélère la bonne réponse.", module:'m7' },
+      { q:"Méthode la PLUS sûre pour partager un fichier sensible interne :", answers:["Pièce jointe non chiffrée vers un externe","Lien OneDrive restreint aux destinataires autorisés","Hébergement sur un site public gratuit"], correct:1, explain:"Lien restreint = contrôle, révocation et traçabilité.", module:'m5' },
+      { q:"Quel scénario illustre une tentative de social engineering ?", answers:["Un faux 'technicien' demande un code MFA par téléphone","Un collègue vous dit bonjour dans le hall","Invitation calendrier interne attendue"], correct:0, explain:"Prétexte + demande d'information sensible = manipulation sociale.", module:'m2' },
+      { q:"Quel mot de passe respecte le mieux la politique ?", answers:["P@ssw0rd2024","EquationArbreVerre!12","123456789012"], correct:1, explain:"Une phrase longue multi-mots + caractère spécial augmente l'entropie.", module:'m2' },
+      { q:"SMS MFA reçu sans action de votre part :", answers:["L'ignorer et donner le code si on vous appelle","Le signaler (potentielle tentative) et vérifier l'activité","Répondre avec votre identifiant"], correct:1, explain:"Un code non sollicité = possible tentative de prise de contrôle.", module:'m2' },
+      { q:"Poste trouvé ouvert et déverrouillé sans propriétaire :", answers:["Regarder quelques mails pour aider","Verrouiller immédiatement et signaler si récurrent","Changer le fond d'écran pour plaisanter"], correct:1, explain:"Sécuriser l'accès pour éviter un usage malveillant.", module:'m6' },
+      { q:"Quelle prudence appliquer avec l'affichage d'un nom expéditeur (alias) ?", answers:["Se fier uniquement au nom affiché si familier","Vérifier le domaine réel complet de l'adresse expéditeur","Répondre d'abord puis analyser ensuite"], correct:1, explain:"Le nom (alias) peut être forgé. Il faut développer le champ ou survoler pour voir l'adresse réelle.", module:'m2' }
     ];
 
     let index=0; let selected=null; let started=Date.now();
@@ -147,7 +148,7 @@
     const questions = shuffle(baseQuestions.slice()).map(q=>{
       const answers = q.answers.map((a,i)=>({text:a, correct:i===q.correct}));
       shuffle(answers);
-      return { q: q.q, answers, explain:q.explain };
+      return { q: q.q, answers, explain:q.explain, module:q.module };
     });
     let answerSelections = new Array(questions.length).fill(null); // stores index chosen
 
@@ -242,9 +243,41 @@
         <div class='cert-title'>${pass? 'Certificat de Validation':'Attestation de Participation'}</div>
         <div class='cert-meta'>Score: ${pct}% (${rawScore}/${questions.length}) • ${remainingDisplay}</div>
         ${timeExpired? '<p style="color:#b31217;font-weight:600;">Fin automatique : limite de temps atteinte (15 min).</p>':''}
-        <p>Ce document atteste que <strong>${getUserName()}</strong> a ${pass? 'réussi':'complété'} le quiz d'intégration de base portant sur la sécurité, l'utilisation des outils, la gestion du matériel et les bonnes pratiques internes.</p>
+        <p>Ce document atteste que <strong>${getUserName()}</strong> a ${pass? 'réussi':'complété'} le quiz d'intégration de base portant sur la sécurité, l\'utilisation des outils, la gestion du matériel et les bonnes pratiques internes.</p>
         <p style='font-size:.7rem;color:#555;'>Référence interne: ONB-${Date.now()}</p>`;
+
+      if(pass){
+        // construire récapitulatif
+        let rows = '';
+        questions.forEach((q,i)=>{
+          const userIdx = answerSelections[i];
+          const correctObj = q.answers.find(a=>a.correct);
+          const userObj = userIdx!=null ? q.answers[userIdx] : null;
+          const ok = userObj && userObj.correct;
+          const reviewLink = (!ok && q.module) ? `<br><a href=\"formation_onboarding.html#${q.module}\" style=\"font-size:.6rem;color:#b31217;font-weight:600;text-decoration:none;\">Revoir le module</a>` : '';
+          rows += `<tr class=\"${ok?'ok':'ko'}\"><td>${i+1}</td><td>${escapeHtml(q.q)}${reviewLink}</td><td>${userObj?escapeHtml(userObj.text):'<em>Non répondu</em>'}</td><td>${escapeHtml(correctObj.text)}</td></tr>`;
+        });
+        body.insertAdjacentHTML('beforeend', `
+          <h3 style="margin:24px 0 8px;font-size:1rem;color:#b31217;">Récapitulatif des réponses</h3>
+          <div style="overflow:auto;max-height:260px;border:1px solid #e2e6eb;border-radius:12px;">
+            <table style="border-collapse:collapse;width:100%;font-size:.65rem;line-height:1.35;">
+              <thead><tr style="background:#f5f7fa;"><th style='text-align:left;padding:6px 8px;border-bottom:1px solid #e2e6eb;'>#</th><th style='text-align:left;padding:6px 8px;border-bottom:1px solid #e2e6eb;'>Question</th><th style='text-align:left;padding:6px 8px;border-bottom:1px solid #e2e6eb;'>Votre réponse</th><th style='text-align:left;padding:6px 8px;border-bottom:1px solid #e2e6eb;'>Bonne réponse</th></tr></thead>
+              <tbody>${rows}</tbody>
+            </table>
+          </div>
+          <style>
+            .cert-dialog table tbody tr.ok {background:linear-gradient(90deg,#e6f7ed,#ffffff);}
+            .cert-dialog table tbody tr.ko {background:linear-gradient(90deg,#ffecec,#ffffff);}
+            .cert-dialog table tbody td {padding:5px 8px;border-bottom:1px solid #f0f2f4;vertical-align:top;}
+            .cert-dialog table tbody tr:last-child td {border-bottom:none;}
+          </style>
+        `);
+      }
       modal.classList.add('active');
+    }
+
+    function escapeHtml(str){
+      return str.replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[ch]));
     }
 
     function formatUsedTime(){
